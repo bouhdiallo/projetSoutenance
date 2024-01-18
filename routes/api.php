@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AnnuaireController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,3 +40,9 @@ Route::group(['middleware' => 'auth:user-api'], function () {
     Route::post('userlogout', [Usercontroller::class, 'userlogout'])->name('userlogout');
     Route::post('userme',[Usercontroller::class,  'me']);
 });
+
+
+//crud annuaire par un administrateur
+Route::get('annuaire/create', [AnnuaireController::class, 'create']);//ajout annuaire
+// Route::put('annuaire/update/{annuaire}', [AnnuaireController::class, 'update']);//modifier annuaire
+// Route::delete('annuaire/{simplon}', [AnnuaireController::class, 'delete']);//supprimmer annuaire
