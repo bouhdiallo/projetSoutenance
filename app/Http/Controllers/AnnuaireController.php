@@ -16,7 +16,17 @@ class AnnuaireController extends Controller
      */
     public function index()
     {
-        //
+        try{
+
+            return response()->json([
+              'status_code' =>200,
+              'status_message' => 'la liste des annuaires a été recuperé',
+              'data'=>Annuaire::all()
+          ]);
+
+        } catch(Exception $e){
+            return response($e)->json($e);
+        }
     }
 
     /**
@@ -33,13 +43,13 @@ class AnnuaireController extends Controller
                 $file = $request->file('image');
                 $filename = date('YmdHi') . $file->getClientOriginalName();
                 $file->move(public_path('images'), $filename);
-                $annuaire->image = $filename;
+                $annuaire->images = $filename;  
             }
             $annuaire->couriel = $request->couriel;
 
 
             // $annuaire->admin_id=1;
-    
+            // dd($annuaire);
             $annuaire->save();
     
             return response()->json([
@@ -51,6 +61,8 @@ class AnnuaireController extends Controller
              return response()->json($e);
            }
     }
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -88,10 +100,11 @@ class AnnuaireController extends Controller
             $annuaire = Annuaire::findOrFail($id);
             $annuaire->nom = $request->nom;
             $annuaire->adress = $request->adress;
-            $annuaire->image = $request->imaage;
-            $annuaire->coujriel = $request->couriel;
+            // $annuaire->image = $request->imaage;
+            $annuaire->couriel = $request->couriel;
             // $annuaire->admin_id=1;
-            $annuaire->save();
+            $annuaire->update();
+            // dd($annuaire);
         }else{
             return response()->json([
                 'status_code'=>422,
@@ -114,8 +127,26 @@ class AnnuaireController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
+    public function delete(Annuaire $annuaire)
+    { 
+        try{
+            if( Auth::guard('admin-api')->check())
+    {  
+            $annuaire->delete();
+            // dd($annuaire);
+    }else{
+        return response()->json([
+            'status_code'=>422,
+            'status_message'=>'Vous n\'etes pas autorisé a faire une suppression'
+        ]);
     }
+            return response()->json([
+              'status_code' =>200,
+              'status_message' => 'l annuaire a été supprimé',
+              'data'=>$annuaire
+          ]);
+      }catch(Exception $e){
+          return response()->json($e);
+      }
+  }
 }

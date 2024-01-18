@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('nom_produit');
             $table->string('prix');
             $table->string('contact');
+            $table->string('images');
             $table->foreignIdFor(User::class)->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });

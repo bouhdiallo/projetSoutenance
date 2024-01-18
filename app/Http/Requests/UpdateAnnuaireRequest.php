@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use \Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UpdateAnnuaireRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class UpdateAnnuaireRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +23,32 @@ class UpdateAnnuaireRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        return 
+        [
+                'nom' => 'required',
+                'adress' => 'required',
+                'couriel' => 'required'
+
+           ];
+
+       }
+       
+       public function failedValidation(validator $validator){
+           throw new HttpResponseException(response()->json([
+               'success'=>false,
+               'error'=>true,
+               'message'=> 'Erreur de validation',
+               'errorsList'=> $validator->errors()
+           ]));
+       }
+        public function messages()
+        {
+           return [
+               'nom.required' => 'un nom doit etre fourni',
+               'adress.required' => 'un adress doit etre fourni',
+               'couriel.required' => 'un couriel doit etre fourni'
+
+           ];
+        }  
     }
-}
+

@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProduitController;
 use App\Http\Controllers\AnnuaireController;
 
 /*
@@ -43,6 +44,14 @@ Route::group(['middleware' => 'auth:user-api'], function () {
 
 
 //crud annuaire par un administrateur
-Route::get('annuaire/create', [AnnuaireController::class, 'create']);//ajout annuaire
-// Route::put('annuaire/update/{annuaire}', [AnnuaireController::class, 'update']);//modifier annuaire
-// Route::delete('annuaire/{simplon}', [AnnuaireController::class, 'delete']);//supprimmer annuaire
+Route::post('annuaire/create', [AnnuaireController::class, 'create']);//ajout annuaire
+Route::put('annuaire/update/{annuaire}', [AnnuaireController::class, 'update']);//modifier annuaire
+Route::delete('annuaire/{annuaire}', [AnnuaireController::class, 'delete']);//supprimmer annuaire
+Route::get('listes_annuaires', [AnnuaireController::class,'index']); // listes des annuaires
+
+
+//crud produit par un utilisateur
+Route::post('produit/create', [ProduitController::class, 'create']);//ajout annuaire
+Route::put('produit/update/{produit}', [ProduitController::class, 'update']);//modifier annuaire
+Route::delete('delete/{produit}', [ProduitController::class, 'delete']);//supprimmer annuaire
+Route::get('listes_produit', [ProduitController::class,'index']); // listes des annuaires
