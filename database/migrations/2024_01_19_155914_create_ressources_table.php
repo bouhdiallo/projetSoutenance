@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use App\Models\Admin;
+use Doctrine\Common\Annotations\AnnotationException;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -17,8 +18,6 @@ return new class extends Migration
             $table->id();
             $table->string('nom');
             $table->string('nature');
-            $table->foreignIdFor(User::class)->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignIdFor(Admin::class)->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

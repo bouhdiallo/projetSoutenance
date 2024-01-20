@@ -1,16 +1,35 @@
 <?php
 
+// Annonce.php
+
 namespace App\Models;
 
-use App\Models\Admin;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Annonce extends Model
 {
-    use HasFactory; 
+    protected $fillable = [
+        'description',
+        'date_activite',
+        'lieu',
+        'images',
+        // ... autres colonnes de votre table Annonce
+    ];
 
-    // public function admin(){
-    //     return ($this->belongsTo(Admin::class,'admin_id'));
-    // }
+    /**
+     * The users that belong to the annonce.
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_id'); // 'commentaires' est la table pivot
+    }
+
+    /**
+     * The comments associated with the annonce.
+     */
+    public function commentaires()
+    {
+        return $this->hasMany(Commentaire::class, 'commentaire_id');
+    }
 }
+

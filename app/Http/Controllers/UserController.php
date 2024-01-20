@@ -11,14 +11,24 @@ class UserController extends Controller
     //
     public function userregister(Request $request){
 
-        $user = User::create([
-         
-            'nom' =>$request->nom,
-            'prenom' =>$request->prenom,
-            'email' =>$request->email,
-            'password' =>Hash::make($request->password)
-        ]);
-    
+        // $user = User::create([
+           
+        //     'nom' =>$request->nom,
+        //     'prenom' =>$request->prenom,
+        //     'email' =>$request->email,
+        //     'password' =>Hash::make($request->password),
+        //     'role' =>$request->role
+        // ]);
+        $user = new User();
+        
+        $user->nom = $request->nom;
+        $user->prenom = $request->prenom;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->role = $request->role;
+
+
+        $user->save();
           if($user){
             return response()->json([$user,'status' => true]);
     

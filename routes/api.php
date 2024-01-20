@@ -2,10 +2,15 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BienController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AnnonceController;
 use App\Http\Controllers\ProduitController;
 use App\Http\Controllers\AnnuaireController;
+use App\Http\Controllers\RessourceController;
+use App\Http\Controllers\CommentaireController;
+use App\Http\Controllers\EspaceDialogueController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,7 +56,37 @@ Route::get('listes_annuaires', [AnnuaireController::class,'index']); // listes d
 
 
 //crud produit par un utilisateur
-Route::post('produit/create', [ProduitController::class, 'create']);//ajout annuaire
-Route::put('produit/update/{produit}', [ProduitController::class, 'update']);//modifier annuaire
-Route::delete('delete/{produit}', [ProduitController::class, 'delete']);//supprimmer annuaire
-Route::get('listes_produit', [ProduitController::class,'index']); // listes des annuaires
+Route::post('produit/create', [ProduitController::class, 'create']);//ajout produit
+Route::put('produit/update/{produit}', [ProduitController::class, 'update']);//modifier produit
+Route::delete('delete/{produit}', [ProduitController::class, 'delete']);//supprimmer produit
+Route::get('listes_produit', [ProduitController::class,'index']); // listes des produit
+
+//crud bien par un utilisateur
+Route::post('bien/create', [BienController::class, 'create']);//ajout bien
+Route::put('bien/update/{bien}', [BienController::class, 'update']);//modifier bien
+Route::delete('delete/{bien}', [BienController::class, 'delete']);//supprimmer bien
+Route::get('listes_bien', [BienController::class,'index']); // listes des bien
+
+//crud annonce par un administrateur
+Route::post('annonce/create', [AnnonceController::class, 'create']);//ajout annonce
+Route::put('annonce/update/{annonce}', [AnnonceController::class, 'update']);//modifier annonce
+Route::delete('annonce/{annonce}', [AnnonceController::class, 'delete']);//supprimmer annonce
+Route::get('liste_annonce', [AnnonceController::class,'index']); // listes des bien
+
+//crud Ressource par un administrateur
+Route::post('ressource/create', [RessourceController::class, 'create']);//ajout ressource
+Route::put('ressource/update/{ressource}', [RessourceController::class, 'update']);//modifier ressource
+Route::delete('deleteRessource/{ressource}', [RessourceController::class, 'delete']);//supprimmer ressource
+Route::get('liste_ressource', [RessourceController::class,'index']); // listes des bien
+
+//crud commentaire par un utilisateur
+Route::post('commentaire/create', [CommentaireController::class, 'create']);//ajout commentaire
+Route::put('commentaire/update/{commentaire}', [CommentaireController::class, 'update']);//modifier commentaire
+Route::delete('deletecommentaire/{commentaire}', [CommentaireController::class, 'delete']);//supprimmer commentaire
+Route::get('liste_commentaire', [CommentaireController::class,'index']); // listes des bien
+
+//crud discussion dans espace dialogue par un utilisateur
+Route::post('discussion/create', [EspaceDialogueController::class, 'create']);//ajout discussion
+Route::put('discussion/update/{discussion}', [EspaceDialogueController::class, 'update']);//modifier discussion
+Route::delete('deleteDiscussion/{discussion}', [EspaceDialogueController::class, 'delete']);//supprimmer discussion
+Route::get('liste_discussion', [EspaceDialogueController::class,'index']); // listes des bien

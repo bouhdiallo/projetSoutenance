@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use App\Models\Commentaire;
 use Illuminate\Http\Request;
+use App\Models\Espace_dialogue;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\CreateCommentaireRequest;
-use App\Http\Requests\UpdateCommentaireRequest;
+use App\Http\Requests\CreateEspaceDialogueRequest;
+use App\Http\Requests\UpdateEspaceDialogueRequest;
 
-class CommentaireController extends Controller
+class EspaceDialogueController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,8 +20,8 @@ class CommentaireController extends Controller
 
              return response()->json([
                'status_code' =>200,
-               'status_message' => 'la liste des commentaires a été recuperé',
-               'data'=>Commentaire::all()
+               'status_message' => 'la liste des diiscussions a été recuperé',
+               'data'=>Espace_dialogue::all()
            ]);
 
          } catch(Exception $e){
@@ -32,27 +32,27 @@ class CommentaireController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(CreateCommentaireRequest $request)
+    public function create(CreateEspaceDialogueRequest $request)
     {
         try {
             if( Auth::guard('user-api')->check()) {
 
-            $comment = new Commentaire();
+            $discussion = new Espace_dialogue();
             
-             $comment->description = $request->description;
+             $discussion->contenu = $request->contenu;
             // $comment->admin_id=1;
-            $comment->save();
+            $discussion->save();
         }else{
             return response()->json([
                 'status_code'=>422,
-                'status_message'=>'Vous n\'etes pas autorisé a commenter, veuillez vous authentifier dabord'
+                'status_message'=>'Vous n\'etes pas autorisé a participer a cette discussion, veuillez vous authentifier dabord'
             ]);
         }
     
             return response()->json([
                 'status_code' =>200,
-                'status_message' => 'le commentaire a été enregistré avec succes',
-                'data'=>$comment
+                'status_message' => 'la discussion a été enregistré avec succes',
+                'data'=>$discussion
             ]);
     
            } catch (Exception $e) {
@@ -65,12 +65,12 @@ class CommentaireController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function delete(Commentaire $comment)
+    public function delete(Espace_dialogue $discussion)
     { 
        try{
             if( Auth::guard('user-api')->check())
     {  
-            $comment->delete();
+            $discussion->delete();
                // dd($comment);
     }else{
         return response()->json([
@@ -81,7 +81,7 @@ class CommentaireController extends Controller
             return response()->json([
               'status_code' =>200,
               'status_message' => 'le commentaire a été supprimé',
-              'data'=>$comment
+              'data'=>$discussion
          ]);
      }catch(Exception $e){
          return response()->json($e);
@@ -90,10 +90,34 @@ class CommentaireController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function update(UpdateEspaceDialogueRequest $request, $id)
     {
-        //
-    }
+         try {           
+           //code qui permet de generer des erreurs
+          if( Auth::guard('user-api')->check())
+            {
+            $discussion = Espace_dialogue::findOrFail($id);
+            $discussion->contenu = $request->contenu;
+           
+             $discussion->update();
+             // dd($discussion);
+         }else{
+             return response()->json([
+                'status_code'=>422,
+                'status_message'=>'Vous n\'etes pas autorisé a faire une modification'
+             ]);
+         } 
+             return response()->json([
+                'status_code' =>200,
+                'status_message' => 'la discussion a été modifié',
+                'data'=>$discussion
+            ]);
+      // code executé en cas d'erreur
+            } catch (Exception $e) {
+             
+             return response()->json($e);
+           }
+         }
 
     /**
      * Show the form for editing the specified resource.
@@ -106,34 +130,10 @@ class CommentaireController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCommentaireRequest $request, $id)
-    {
-         try {           
-           //code qui permet de generer des erreurs
-          if( Auth::guard('user-api')->check())
-            {
-            $comment = Commentaire::findOrFail($id);
-            $comment->description = $request->description;
-           
-             $comment->update();
-             // dd($comment);
-         }else{
-             return response()->json([
-                'status_code'=>422,
-                'status_message'=>'Vous n\'etes pas autorisé a faire une modification'
-             ]);
-         } 
-             return response()->json([
-                'status_code' =>200,
-                'status_message' => 'le commentaire a été modifié',
-                'data'=>$comment
-            ]);
-      // code executé en cas d'erreur
-            } catch (Exception $e) {
-             
-             return response()->json($e);
-           }
-         }
+    // public function update(Request $request, string $id)
+    // {
+    //     //
+    // }
 
     /**
      * Remove the specified resource from storage.
