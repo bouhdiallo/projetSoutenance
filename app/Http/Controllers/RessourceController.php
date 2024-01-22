@@ -35,28 +35,33 @@ class RessourceController extends Controller
     public function create(CreateRessourceRequest $request)
     {
         try {
-            $ressource = new Ressource();
-            
-            $ressource->nom = $request->nom;
-            $ressource->nature = $request->nature;
-            //  dd($ressource);
+            // Vérifier si l'utilisateur actuellement authentifié a le rôle "admin"
+            if (Auth::guard('user-api')->check() && Auth::guard('user-api')->user()->role === 'admin') {
+                 $user = Auth::guard('user-api')->user();
+    
+                $ressource = new Ressource();
+    
+                $ressource->nom = $request->nom;
+                $ressource->nature = $request->nature;
 
-            // $ressource->admin_id=1;
-            $ressource->save();
+                $ressource->admin_id = $user->id;
+                $ressource->save();
     
-            return response()->json([
-                'status_code' =>200,
-                'status_message' => 'l ressource a été ajouté avec succes',
-                'data'=>$ressource
-            ]);
-    
-           } catch (Exception $e) {
-             
-             return response()->json($e);
-           }
-    
+                return response()->json([
+                    'status_code' => 200,
+                    'status_message' => 'L\'annuaire a été ajouté avec succès',
+                    'data' => $ressource
+                ]);
+            } else {
+                return response()->json([
+                    'status_code' => 403,
+                    'status_message' => 'Vous n\'avez pas les autorisations nécessaires pour créer un annuaire en tant qu\'admin'
+                ]);
+            }
+        } catch (Exception $e) {
+            return response()->json(['status_code' => 500, 'error' => $e->getMessage()]);
+        }
     }
-
     /**
      * Store a newly created resource in storage.
      */
@@ -85,35 +90,43 @@ class RessourceController extends Controller
      * Update the specified resource in storage.
      */
     public function update(UpdateRessourceRequest $request, $id)
-    {  
+           {
+            try {           
+                if (Auth::guard('user-api')->check()) {
+                    $user = Auth::guard('user-api')->user();
         
-        try {           
-            //code qui permet de generer des erreurs
-            // if( Auth::guard('admin-api')->check())
-            
-            $ressource = Ressource::findOrFail($id);
-            $ressource->nom = $request->nom;
-            $ressource->nature = $request->nature;
-
-            // $ressource->admin_id=1;
-            $ressource->update();
-               
-            // return response()->json([
-            //     'status_code'=>422,
-            //     'status_message'=>'Vous n\'etes pas autorisé a faire une modification'
-            // ]);
-    
-            return response()->json([
-                'status_code' =>200,
-                'status_message' => 'l ressource a été modifié',
-                'data'=>$ressource
-            ]);
-     // code executé en cas d'erreur
-           } catch (Exception $e) {
-             
-             return response()->json($e);
-           }
-           }
+                    // Vérifier si l'utilisateur est l'auteur du bien
+                    $ressource = Ressource::findOrFail($id);
+                    // dd($ressource);
+                    if ($ressource->admin_id === $user->id && $user->role === 'admin') {
+                        $ressource->nom = $request->nom;
+                        $ressource->nature = $request->nature;
+        
+                        $ressource->update();
+                        // dd($ressource);
+        
+                        return response()->json([
+                            'status_code' => 200,
+                            'status_message' => 'La ressource a été modifiée',
+                            'data' => $ressource
+                        ]);
+                    } else {
+                        return response()->json([
+                            'status_code' => 403,
+                            'status_message' => 'Vous n\'êtes pas autorisé à effectuer une modification sur ce ressource'
+                        ]);
+                    }
+                } else {
+                    return response()->json([
+                        'status_code' => 422,
+                        'status_message' => 'Vous n\'êtes pas autorisé à effectuer une modification'
+                    ]);
+                }
+            } catch (Exception $e) {
+                return response()->json(['status_code' => 500, 'error' => $e->getMessage()]);
+            }
+        }
+        
           
         
 
@@ -122,24 +135,36 @@ class RessourceController extends Controller
      */
     public function delete(Ressource $ressource)
      { 
-        try{
-             if( Auth::guard('admin-api')->check())
-     {  
-             $ressource->delete();
-             // dd($produit);
-     }else{
-         return response()->json([
-             'status_code'=>422,
-             'status_message'=>'Vous n\'etes pas autorisé a faire une suppression'
-        ]);
-     }
-             return response()->json([
-               'status_code' =>200,
-               'status_message' => 'la ressource a été supprimé',
-               'data'=>$ressource
-          ]);
-      }catch(Exception $e){
-          return response()->json($e);
-       }
+    try {
+        if (Auth::guard('user-api')->check()) {
+            $user = Auth::guard('user-api')->user();
+
+            // Vérifier si l'utilisateur est l'auteur du annuaire et a le rôle 'admin'
+             if ($ressource->admin_id === $user->id && $user->role === 'admin') 
+            // if ($annuaire->admin_id === $user->id) 
+            //    dd($annuaire);
+            {
+                $ressource->delete();
+
+                return response()->json([
+                    'status_code' => 200,
+                    'status_message' => 'L\'annuaire a été supprimé',
+                    'data' => $ressource
+                ]);
+            } else {
+                return response()->json([
+                    'status_code' => 403,
+                    'status_message' => 'Vous n\'êtes pas autorisé à effectuer la suppression de ce annuaire'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status_code' => 422,
+                'status_message' => 'Vous n\'êtes pas autorisé à effectuer la suppression'
+            ]);
+        }
+    } catch (Exception $e) {
+        return response()->json(['status_code' => 500, 'error' => $e->getMessage()]);
+    }
   }
-}
+ }

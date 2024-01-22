@@ -109,21 +109,18 @@ class ProduitController extends Controller
         try {           
             if (Auth::guard('user-api')->check()) {
                 $user = Auth::guard('user-api')->user();
-    
-                // Vérifier si l'utilisateur est l'auteur du produit
+
+                // Vérifier si l'utilisateur est l'auteur du bien
                 $produit = Produit::findOrFail($id);
-
+                // dd($produit);
                 if ($produit->user_id === $user->id) {
-                    // $produit = Produit::findOrFail($id);
-                $produit->nom_produit = $request->nom_produit;
-                $produit->prix = $request->prix;
-                $produit->contact = $request->contact;
-
-            // $produit->image = $request->imaage;
-            // $produit->admin_id=1;
-             $produit->update();
-                //  dd($produit);
-
+                    $produit->nom_produit = $request->nom_produit;
+                    $produit->prix = $request->prix;
+                    $produit->contact = $request->contact;
+    
+                    // $produit->image = $request->imaage;
+                    // $produit->admin_id=1;
+                    $produit->update();
     
                     return response()->json([
                         'status_code' => 200,
@@ -146,7 +143,6 @@ class ProduitController extends Controller
             return response()->json(['status_code' => 500, 'error' => $e->getMessage()]);
         }
     }
-    
     /**
      * Remove the specified resource from storage.
      */

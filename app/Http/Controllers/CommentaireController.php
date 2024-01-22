@@ -36,11 +36,15 @@ class CommentaireController extends Controller
     {
         try {
             if( Auth::guard('user-api')->check()) {
+                $user = Auth::guard('user-api')->user();
 
             $comment = new Commentaire();
             
              $comment->description = $request->description;
             // $comment->admin_id=1;
+            $comment->user_id = $user->id;
+            // $comment->user_id = $user->id;
+
             $comment->save();
         }else{
             return response()->json([
@@ -67,26 +71,39 @@ class CommentaireController extends Controller
      */
     public function delete(Commentaire $comment)
     { 
-       try{
-            if( Auth::guard('user-api')->check())
-    {  
-            $comment->delete();
-               // dd($comment);
-    }else{
-        return response()->json([
-            'status_code'=>422,
-            'status_message'=>'Vous n\'etes pas autorisé a faire une suppression'
-       ]);
+        try {
+            if (Auth::guard('user-api')->check()) {
+                $user = Auth::guard('user-api')->user();
+    
+                // Vérifier si l'utilisateur est l'auteur du bien et a le rôle 'user'
+                // if ($bien->user_id === $user->id && $user->role === 'user') 
+                if ($comment->user_id === $user->id) 
+                {
+                    $comment->delete();
+                    // dd($comment);
+    
+                    return response()->json([
+                        'status_code' => 200,
+                        'status_message' => 'Le comment a été supprimé',
+                        'data' => $comment
+                    ]);
+                } else {
+                    return response()->json([
+                        'status_code' => 403,
+                        'status_message' => 'Vous n\'êtes pas autorisé à effectuer la suppression de ce commentaire'
+                    ]);
+                }
+            } else {
+                return response()->json([
+                    'status_code' => 422,
+                    'status_message' => 'Vous n\'êtes pas autorisé à effectuer la suppression'
+                ]);
+            }
+        } catch (Exception $e) {
+            return response()->json(['status_code' => 500, 'error' => $e->getMessage()]);
+        }
     }
-            return response()->json([
-              'status_code' =>200,
-              'status_message' => 'le commentaire a été supprimé',
-              'data'=>$comment
-         ]);
-     }catch(Exception $e){
-         return response()->json($e);
-      }
- }
+  
     /**
      * Display the specified resource.
      */
@@ -107,33 +124,42 @@ class CommentaireController extends Controller
      * Update the specified resource in storage.
      */
     public function update(UpdateCommentaireRequest $request, $id)
-    {
-         try {           
-           //code qui permet de generer des erreurs
-          if( Auth::guard('user-api')->check())
-            {
+{
+    try {           
+        if (Auth::guard('user-api')->check()) {
+            $user = Auth::guard('user-api')->user();
+
             $comment = Commentaire::findOrFail($id);
-            $comment->description = $request->description;
-           
-             $comment->update();
-             // dd($comment);
-         }else{
-             return response()->json([
-                'status_code'=>422,
-                'status_message'=>'Vous n\'etes pas autorisé a faire une modification'
-             ]);
-         } 
-             return response()->json([
-                'status_code' =>200,
-                'status_message' => 'le commentaire a été modifié',
-                'data'=>$comment
+
+            // Vérifier si l'utilisateur est l'auteur du commentaire
+            if ($comment->user_id === $user->id) {
+                $comment->description = $request->description;
+                // dd($user);
+
+                $comment->update();
+
+                return response()->json([
+                    'status_code' => 200,
+                    'status_message' => 'Le commentaire a été modifié',
+                    'data' => $comment
+                ]);
+            } else {
+                return response()->json([
+                    'status_code' => 403,
+                    'status_message' => 'Vous n\'êtes pas autorisé à effectuer une modification sur ce commentaire'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status_code' => 422,
+                'status_message' => 'Vous n\'êtes pas autorisé à effectuer une modification'
             ]);
-      // code executé en cas d'erreur
-            } catch (Exception $e) {
-             
-             return response()->json($e);
-           }
-         }
+        }
+    } catch (Exception $e) {
+        return response()->json(['status_code' => 500, 'error' => $e->getMessage()]);
+    }
+}
+
 
     /**
      * Remove the specified resource from storage.

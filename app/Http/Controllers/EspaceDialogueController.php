@@ -33,91 +33,120 @@ class EspaceDialogueController extends Controller
      * Show the form for creating a new resource.
      */
     public function create(CreateEspaceDialogueRequest $request)
-    {
-        try {
-            if( Auth::guard('user-api')->check()) {
+      {
+            try {
+                if( Auth::guard('user-api')->check()) {
+                    $user = Auth::guard('user-api')->user();
+    
+                $discussion = new Espace_dialogue();
+                
+                 $discussion->contenu = $request->contenu;
+                // $discussion->admin_id=1;
+                $discussion->user_id = $user->id;
+                // $discussion->user_id = $user->id;
+    
+                $discussion->save();
+            }else{
+                return response()->json([
+                    'status_code'=>422,
+                    'status_message'=>'Vous n\'etes pas autorisé a commenter, veuillez vous authentifier dabord'
+                ]);
+            }
+        
+                return response()->json([
+                    'status_code' =>200,
+                    'status_message' => 'le commentaire a été enregistré avec succes',
+                    'data'=>$discussion
+                ]);
+        
+               } catch (Exception $e) {
+                 
+                 return response()->json($e);
+               }
+              }
 
-            $discussion = new Espace_dialogue();
-            
-             $discussion->contenu = $request->contenu;
-            // $comment->admin_id=1;
-            $discussion->save();
-        }else{
-            return response()->json([
-                'status_code'=>422,
-                'status_message'=>'Vous n\'etes pas autorisé a participer a cette discussion, veuillez vous authentifier dabord'
-            ]);
-        }
-    
-            return response()->json([
-                'status_code' =>200,
-                'status_message' => 'la discussion a été enregistré avec succes',
-                'data'=>$discussion
-            ]);
-    
-           } catch (Exception $e) {
-             
-             return response()->json($e);
-           }
-    
-    }
+
+
+
+
 
     /**
      * Store a newly created resource in storage.
      */
     public function delete(Espace_dialogue $discussion)
-    { 
-       try{
-            if( Auth::guard('user-api')->check())
-    {  
-            $discussion->delete();
-               // dd($comment);
-    }else{
-        return response()->json([
-            'status_code'=>422,
-            'status_message'=>'Vous n\'etes pas autorisé a faire une suppression'
-       ]);
-    }
-            return response()->json([
-              'status_code' =>200,
-              'status_message' => 'le commentaire a été supprimé',
-              'data'=>$discussion
-         ]);
-     }catch(Exception $e){
-         return response()->json($e);
-      }
- }
+    
+        { 
+            try {
+                if (Auth::guard('user-api')->check()) {
+                    $user = Auth::guard('user-api')->user();
+        
+                    // Vérifier si l'utilisateur est l'auteur du bien et a le rôle 'user'
+                    // if ($bien->user_id === $user->id && $user->role === 'user') 
+                    if ($discussion->user_id === $user->id) 
+                    {
+                        $discussion->delete();
+                        // dd($discussion);
+        
+                        return response()->json([
+                            'status_code' => 200,
+                            'status_message' => 'Le discussion a été supprimé',
+                            'data' => $discussion
+                        ]);
+                    } else {
+                        return response()->json([
+                            'status_code' => 403,
+                            'status_message' => 'Vous n\'êtes pas autorisé à effectuer la suppression de ce discussion'
+                        ]);
+                    }
+                } else {
+                    return response()->json([
+                        'status_code' => 422,
+                        'status_message' => 'Vous n\'êtes pas autorisé à effectuer la suppression'
+                    ]);
+                }
+            } catch (Exception $e) {
+                return response()->json(['status_code' => 500, 'error' => $e->getMessage()]);
+            }
+        }
     /**
      * Display the specified resource.
      */
     public function update(UpdateEspaceDialogueRequest $request, $id)
     {
-         try {           
-           //code qui permet de generer des erreurs
-          if( Auth::guard('user-api')->check())
-            {
-            $discussion = Espace_dialogue::findOrFail($id);
-            $discussion->contenu = $request->contenu;
-           
-             $discussion->update();
-             // dd($discussion);
-         }else{
-             return response()->json([
-                'status_code'=>422,
-                'status_message'=>'Vous n\'etes pas autorisé a faire une modification'
-             ]);
-         } 
-             return response()->json([
-                'status_code' =>200,
-                'status_message' => 'la discussion a été modifié',
-                'data'=>$discussion
-            ]);
-      // code executé en cas d'erreur
-            } catch (Exception $e) {
-             
-             return response()->json($e);
-           }
-         }
+        try {           
+            if (Auth::guard('user-api')->check()) {
+                $user = Auth::guard('user-api')->user();
+    
+                $discussion = Espace_dialogue::findOrFail($id);
+    
+                // Vérifier si l'utilisateur est l'auteur du discussionaire
+                if ($discussion->user_id === $user->id) {
+                    $discussion->contenu = $request->contenu;
+                    // dd($user);
+    
+                    $discussion->update();
+    
+                    return response()->json([
+                        'status_code' => 200,
+                        'status_message' => 'Le discussionaire a été modifié',
+                        'data' => $discussion
+                    ]);
+                } else {
+                    return response()->json([
+                        'status_code' => 403,
+                        'status_message' => 'Vous n\'êtes pas autorisé à effectuer une modification sur ce discussion'
+                    ]);
+                }
+            } else {
+                return response()->json([
+                    'status_code' => 422,
+                    'status_message' => 'Vous n\'êtes pas autorisé à effectuer une modification'
+                ]);
+            }
+        } catch (Exception $e) {
+            return response()->json(['status_code' => 500, 'error' => $e->getMessage()]);
+        }
+    }
 
     /**
      * Show the form for editing the specified resource.

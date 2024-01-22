@@ -18,6 +18,7 @@ return new class extends Migration
             $table->id();
             $table->string('nom');
             $table->string('nature');
+            $table->foreignIdFor(Admin::class)->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date('date_activite');
             $table->string('lieu');
             $table->string('images');
+            $table->foreignIdFor(Admin::class)->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

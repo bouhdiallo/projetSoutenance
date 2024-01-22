@@ -135,7 +135,9 @@ public function update(UpdateBienRequest $request, $id)
 
             // Vérifier si l'utilisateur est l'auteur du bien
             $bien = Bien::findOrFail($id);
-            if ($bien->user_id === $user->id) {
+            if ($bien->user_id === $user->id && $user->role === 'user') 
+            // if ($annuaire->admin_id === $user->id && $user->role === 'admin') 
+            {
                 $bien->nom = $request->nom;
                 $bien->caracteristique = $request->caracteristique;
                 $bien->contact = $request->contact;
