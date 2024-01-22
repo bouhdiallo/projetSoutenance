@@ -32,35 +32,87 @@ class AnnuaireController extends Controller
     /**
      * Show the form for creating a new resource.
      */
+    // {
+    //     try {
+    //         if (Auth::guard('user-api')->check()) {
+    //             $user = Auth::guard('user-api')->user();
+    
+    //             $bien = new Bien();
+    //             $bien->nom = $request->nom;
+    //             $bien->caracteristique = $request->caracteristique;
+    //             $bien->contact = $request->contact;
+    
+    //             if ($request->file('image')) {
+    //                 $file = $request->file('image');
+    //                 $filename = date('YmdHi') . $file->getClientOriginalName();
+    //                 $file->move(public_path('images'), $filename);
+    //                 $bien->images = $filename;  
+    //             }
+    
+    //             // Assurez-vous d'associer le bien à l'utilisateur actuellement authentifié
+    //             $bien->user_id = $user->id;
+    
+    //             $bien->save();
+    
+    //             return response()->json([
+    //                 'status_code' => 200,
+    //                 'status_message' => 'Le bien a été ajouté avec succès',
+    //                 'data' => $bien
+    //             ]);
+    //         } else {
+    //             return response()->json([
+    //                 'status_code' => 401,
+    //                 'status_message' => 'Vous devez être authentifié pour créer un bien'
+    //             ]);
+    //         }
+    //     } catch (Exception $e) {
+    //         return response()->json(['status_code' => 500, 'error' => $e->getMessage()]);
+    //     }
+    // }
+
+
+
+
+
     public function create(CreateAnnuaireRequest $request)
-    {
-        try {
+ {
+    try {
+        // Vérifier si l'utilisateur actuellement authentifié a le rôle "admin"
+        if (Auth::guard('user-api')->check() && Auth::guard('user-api')->user()->role === 'admin') {
+             $user = Auth::guard('user-api')->user();
+
             $annuaire = new Annuaire();
-            
+
             $annuaire->nom = $request->nom;
             $annuaire->adress = $request->adress;
+
             if ($request->file('image')) {
                 $file = $request->file('image');
                 $filename = date('YmdHi') . $file->getClientOriginalName();
                 $file->move(public_path('images'), $filename);
                 $annuaire->images = $filename;  
             }
+
             $annuaire->couriel = $request->couriel;
-
-
-            // $annuaire->admin_id=1;
-            // dd($annuaire);
+            $annuaire->admin_id = $user->id;
             $annuaire->save();
-    
+
             return response()->json([
-                'status_code' =>200,
-                'status_message' => 'l annuaire a été ajouté avec succes',
-                'data'=>$annuaire
+                'status_code' => 200,
+                'status_message' => 'L\'annuaire a été ajouté avec succès',
+                'data' => $annuaire
             ]);
-           } catch (Exception $e) {
-             return response()->json($e);
-           }
+        } else {
+            return response()->json([
+                'status_code' => 403,
+                'status_message' => 'Vous n\'avez pas les autorisations nécessaires pour créer un annuaire en tant qu\'admin'
+            ]);
+        }
+    } catch (Exception $e) {
+        return response()->json(['status_code' => 500, 'error' => $e->getMessage()]);
     }
+}
+
 
 
 
@@ -92,61 +144,81 @@ class AnnuaireController extends Controller
      * Update the specified resource in storage.
      */
     public function update(UpdateAnnuaireRequest $request, $id)
+
     {
         try {           
-            //code qui permet de generer des erreurs
-            if( Auth::guard('admin-api')->check())
-            {
-            $annuaire = Annuaire::findOrFail($id);
-            $annuaire->nom = $request->nom;
-            $annuaire->adress = $request->adress;
-            // $annuaire->image = $request->imaage;
-            $annuaire->couriel = $request->couriel;
-            // $annuaire->admin_id=1;
-            $annuaire->update();
-            // dd($annuaire);
-        }else{
-            return response()->json([
-                'status_code'=>422,
-                'status_message'=>'Vous n\'etes pas autorisé a faire une modification'
-            ]);
-        } 
-            return response()->json([
-                'status_code' =>200,
-                'status_message' => 'l annuaire a été modifié',
-                'data'=>$annuaire
-            ]);
-     // code executé en cas d'erreur
-           } catch (Exception $e) {
-             
-             return response()->json($e);
-           }
-          }
+            if (Auth::guard('user-api')->check()) {
+                $user = Auth::guard('user-api')->user();
     
-
+                // Vérifier si l'utilisateur est l'auteur du bien
+                $annuaire = Annuaire::findOrFail($id);
+                // dd($annuaire);
+                if ($annuaire->admin_id === $user->id && $user->role === 'admin') {
+                    $annuaire->nom = $request->nom;
+                    $annuaire->adress = $request->adress;
+                    $annuaire->couriel = $request->couriel;
+    
+                    // $annuaire->image = $request->imaage;
+                    // $annuaire->admin_id=1;
+                    $annuaire->update();
+    
+                    return response()->json([
+                        'status_code' => 200,
+                        'status_message' => 'Le annuaire a été modifié',
+                        'data' => $annuaire
+                    ]);
+                } else {
+                    return response()->json([
+                        'status_code' => 403,
+                        'status_message' => 'Vous n\'êtes pas autorisé à effectuer une modification sur ce annuaire'
+                    ]);
+                }
+            } else {
+                return response()->json([
+                    'status_code' => 422,
+                    'status_message' => 'Vous n\'êtes pas autorisé à effectuer une modification'
+                ]);
+            }
+        } catch (Exception $e) {
+            return response()->json(['status_code' => 500, 'error' => $e->getMessage()]);
+        }
+    }
+    
     /**
      * Remove the specified resource from storage.
      */
     public function delete(Annuaire $annuaire)
-    { 
-        try{
-            if( Auth::guard('admin-api')->check())
-    {  
-            $annuaire->delete();
-            // dd($annuaire);
-    }else{
-        return response()->json([
-            'status_code'=>422,
-            'status_message'=>'Vous n\'etes pas autorisé a faire une suppression'
-        ]);
-    }
+  { 
+    try {
+        if (Auth::guard('user-api')->check()) {
+            $user = Auth::guard('user-api')->user();
+
+            // Vérifier si l'utilisateur est l'auteur du annuaire et a le rôle 'admin'
+             if ($annuaire->admin_id === $user->id && $user->role === 'admin') 
+            // if ($annuaire->admin_id === $user->id) 
+            //    dd($annuaire);
+            {
+                $annuaire->delete();
+
+                return response()->json([
+                    'status_code' => 200,
+                    'status_message' => 'L\'annuaire a été supprimé',
+                    'data' => $annuaire
+                ]);
+            } else {
+                return response()->json([
+                    'status_code' => 403,
+                    'status_message' => 'Vous n\'êtes pas autorisé à effectuer la suppression de ce annuaire'
+                ]);
+            }
+        } else {
             return response()->json([
-              'status_code' =>200,
-              'status_message' => 'l annuaire a été supprimé',
-              'data'=>$annuaire
-          ]);
-      }catch(Exception $e){
-          return response()->json($e);
-      }
-  }
+                'status_code' => 422,
+                'status_message' => 'Vous n\'êtes pas autorisé à effectuer la suppression'
+            ]);
+        }
+    } catch (Exception $e) {
+        return response()->json(['status_code' => 500, 'error' => $e->getMessage()]);
+    }
+}
 }
