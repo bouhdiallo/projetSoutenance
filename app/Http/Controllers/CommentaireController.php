@@ -70,18 +70,18 @@ class CommentaireController extends Controller
      * Store a newly created resource in storage.
      */
     public function delete(Commentaire $comment)
+   
     { 
         try {
             if (Auth::guard('user-api')->check()) {
                 $user = Auth::guard('user-api')->user();
-    
+                dd($comment->user_id, $user->id);
+
                 // Vérifier si l'utilisateur est l'auteur du bien et a le rôle 'user'
                 // if ($bien->user_id === $user->id && $user->role === 'user') 
                 if ($comment->user_id === $user->id) 
                 {
                     $comment->delete();
-                    // dd($comment);
-    
                     return response()->json([
                         'status_code' => 200,
                         'status_message' => 'Le comment a été supprimé',

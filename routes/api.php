@@ -41,14 +41,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //user controller
 Route::post('userregister', [UserController::class, 'userregister'])->name('userregister');
 Route::post('userlog', [UserController::class, 'userlog'])->name('userlog');
-Route::post('userlogout', [Usercontroller::class, 'userlogout'])->name('userlogout');
 
-Route::put('bien/update/{bien}', [BienController::class, 'update']);//modifier bien
 
 Route::group(['middleware' => 'auth:user-api'], function () {
     Route::post('userme',[Usercontroller::class,  'me']);
-
-
+    Route::post('userlogout', [Usercontroller::class, 'userlogout'])->name('userlogout');
 });
 
 
@@ -69,6 +66,8 @@ Route::get('listes_produit', [ProduitController::class,'index']); // listes des 
 Route::post('bien/create', [BienController::class, 'create']);//ajout bien
 Route::delete('delete/{bien}', [BienController::class, 'delete']);//supprimmer bien
 Route::get('listes_bien', [BienController::class,'index']); // listes des bien
+Route::put('bien/update/{bien}', [BienController::class, 'update']);//modifier bien
+
 
 //crud annonce par un administrateur
 Route::post('annonce/create', [AnnonceController::class, 'create']);//ajout annonce

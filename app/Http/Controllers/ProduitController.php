@@ -109,10 +109,10 @@ class ProduitController extends Controller
         try {           
             if (Auth::guard('user-api')->check()) {
                 $user = Auth::guard('user-api')->user();
+                dd($user);
 
                 // Vérifier si l'utilisateur est l'auteur du bien
                 $produit = Produit::findOrFail($id);
-                // dd($produit);
                 if ($produit->user_id === $user->id) {
                     $produit->nom_produit = $request->nom_produit;
                     $produit->prix = $request->prix;

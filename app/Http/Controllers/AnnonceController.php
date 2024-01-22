@@ -46,13 +46,15 @@ class AnnonceController extends Controller
                  $annonce->date_activite = $request->date_activite;
                  $annonce->lieu = $request->lieu;
 
-                 if ($request->file('image')) {
-                    $file = $request->file('image');
+                 if ($request->file('images')) {
+                    // dd('ok');
+                    $file = $request->file('images');
                     $filename = date('YmdHi') . $file->getClientOriginalName();
                     $file->move(public_path('images'), $filename);
                     $annonce->images = $filename;  
                 }
                 // dd($annonce);
+
 
                 $annonce->admin_id = $user->id;
                 // dd($annonce);
@@ -139,37 +141,46 @@ class AnnonceController extends Controller
      * Update the specified resource in storage.
      */
     public function update(UpdateAnnonceRequest $request, $id)
-    {  
-        {
+    {
         try {           
-            //code qui permet de generer des erreurs
-            if( Auth::guard('admin-api')->check())
-            {
-            $annonce = Annonce::findOrFail($id);
-            $annonce->description = $request->description;
-            $annonce->date_activite = $request->date_activite;
-            $annonce->lieu = $request->lieu;
+            if (Auth::guard('user-api')->check()) {
+                $user = Auth::guard('user-api')->user();
+    
+                $annonce = Annonce::findOrFail($id);
+    
+                // Vérifier si l'utilisateur est l'auteur du annonceaire
+                if ($annonce->admin_id === $user->id && $user->role === 'admin')  {
+                    // dd($annonce);
 
-            // $annonce->admin_id=1;
-            $annonce->update();
-        }else{
-            return response()->json([
-                'status_code'=>422,
-                'status_message'=>'Vous n\'etes pas autorisé a faire une modification'
-            ]);
-        } 
-            return response()->json([
-                'status_code' =>200,
-                'status_message' => 'l annonce a été modifié',
-                'data'=>$annonce
-            ]);
-     // code executé en cas d'erreur
-           } catch (Exception $e) {
-             
-             return response()->json($e);
-           }
-          }
+                    $annonce->description = $request->description;
+                    $annonce->date_activite = $request->date_activite;
+                    $annonce->lieu = $request->lieu;               
+                        //   dd($user);
+    
+                    $annonce->update();
+    
+                    return response()->json([
+                        'status_code' => 200,
+                        'status_message' => 'L\'annonce a été modifié',
+                        'data' => $annonce
+                    ]);
+                } else {
+                    return response()->json([
+                        'status_code' => 403,
+                        'status_message' => 'Vous n\'êtes pas autorisé à effectuer une modification sur cette annonce'
+                    ]);
+                }
+            } else {
+                return response()->json([
+                    'status_code' => 422,
+                    'status_message' => 'Vous n\'êtes pas autorisé à effectuer une modification'
+                ]);
+            }
+        } catch (Exception $e) {
+            return response()->json(['status_code' => 500, 'error' => $e->getMessage()]);
         }
+    }
+    
     
 
     /**
@@ -177,23 +188,36 @@ class AnnonceController extends Controller
      */
     public function delete(Annonce $annonce)
     { 
-        try{
-            if( Auth::guard('admin-api')->check())
-    {  
-            $annonce->delete();
-    }else{
-        return response()->json([
-            'status_code'=>422,
-            'status_message'=>'Vous n\'etes pas autorisé a faire une suppression'
-        ]);
-    }
-            return response()->json([
-              'status_code' =>200,
-              'status_message' => 'l annonce a été supprimé',
-              'data'=>$annonce
-          ]);
-      }catch(Exception $e){
-          return response()->json($e);
+        try {
+            if (Auth::guard('user-api')->check()) {
+                $user = Auth::guard('user-api')->user();
+    
+                // Vérifier si l'utilisateur est l'auteur du annuaire et a le rôle 'admin'
+                 if ($annonce->admin_id === $user->id && $user->role === 'admin') 
+                // if ($annuaire->admin_id === $user->id) 
+                //    dd($annuaire);
+                {
+                    $annonce->delete();
+    
+                    return response()->json([
+                        'status_code' => 200,
+                        'status_message' => 'L\'annuaire a été supprimé',
+                        'data' => $annonce
+                    ]);
+                } else {
+                    return response()->json([
+                        'status_code' => 403,
+                        'status_message' => 'Vous n\'êtes pas autorisé à effectuer la suppression de ce annuaire'
+                    ]);
+                }
+            } else {
+                return response()->json([
+                    'status_code' => 422,
+                    'status_message' => 'Vous n\'êtes pas autorisé à effectuer la suppression'
+                ]);
+            }
+        } catch (Exception $e) {
+            return response()->json(['status_code' => 500, 'error' => $e->getMessage()]);
+        }
       }
-  }
 }
