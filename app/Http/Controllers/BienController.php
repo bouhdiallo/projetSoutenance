@@ -32,11 +32,13 @@ class BienController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(CreateBienRequest $request)
-    {
-        try {
+public function create(CreateBienRequest $request)
+{
+    try {
+        if (Auth::guard('user-api')->check()) {
+            $user = Auth::guard('user-api')->user();
+
             $bien = new Bien();
-            
             $bien->nom = $request->nom;
             $bien->caracteristique = $request->caracteristique;
             $bien->contact = $request->contact;
@@ -47,21 +49,28 @@ class BienController extends Controller
                 $file->move(public_path('images'), $filename);
                 $bien->images = $filename;  
             }
-            // $bien->statut = $request->statut;
 
-            // $annuaire->admin_id=1;
+            // Assurez-vous d'associer le bien à l'utilisateur actuellement authentifié
+            $bien->user_id = $user->id;
+
             $bien->save();
-            // dd($bien);
 
             return response()->json([
-                'status_code' =>200,
-                'status_message' => 'le bien a été ajouté avec succes',
-                'data'=>$bien
+                'status_code' => 200,
+                'status_message' => 'Le bien a été ajouté avec succès',
+                'data' => $bien
             ]);
-           } catch (Exception $e) {
-             return response()->json($e);
-           }
+        } else {
+            return response()->json([
+                'status_code' => 401,
+                'status_message' => 'Vous devez être authentifié pour créer un bien'
+            ]);
+        }
+    } catch (Exception $e) {
+        return response()->json(['status_code' => 500, 'error' => $e->getMessage()]);
     }
+}
+
 
     /**
      * Store a newly created resource in storage.
@@ -82,64 +91,117 @@ class BienController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function delete(Bien $bien)
-     { 
-        try{
-             if( Auth::guard('user-api')->check())
-     {  
-             $bien->delete();
-                // dd($bien);
-     }else{
-         return response()->json([
-             'status_code'=>422,
-             'status_message'=>'Vous n\'etes pas autorisé a faire une suppression'
-        ]);
-     }
-             return response()->json([
-               'status_code' =>200,
-               'status_message' => 'le bien a été supprimé',
-               'data'=>$bien
-          ]);
-      }catch(Exception $e){
-          return response()->json($e);
-       }
-  }
 
+public function delete(Bien $bien)
+{ 
+    try {
+        if (Auth::guard('user-api')->check()) {
+            $user = Auth::guard('user-api')->user();
+
+            // Vérifier si l'utilisateur est l'auteur du bien et a le rôle 'user'
+            // if ($bien->user_id === $user->id && $user->role === 'user') 
+            if ($bien->user_id === $user->id) 
+            {
+                $bien->delete();
+
+                return response()->json([
+                    'status_code' => 200,
+                    'status_message' => 'Le bien a été supprimé',
+                    'data' => $bien
+                ]);
+            } else {
+                return response()->json([
+                    'status_code' => 403,
+                    'status_message' => 'Vous n\'êtes pas autorisé à effectuer la suppression de ce bien'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status_code' => 422,
+                'status_message' => 'Vous n\'êtes pas autorisé à effectuer la suppression'
+            ]);
+        }
+    } catch (Exception $e) {
+        return response()->json(['status_code' => 500, 'error' => $e->getMessage()]);
+    }
+}
+
+
+public function update(UpdateBienRequest $request, $id)
+{
+    try {           
+        if (Auth::guard('user-api')->check()) {
+            $user = Auth::guard('user-api')->user();
+
+            // Vérifier si l'utilisateur est l'auteur du bien
+            $bien = Bien::findOrFail($id);
+            if ($bien->user_id === $user->id) {
+                $bien->nom = $request->nom;
+                $bien->caracteristique = $request->caracteristique;
+                $bien->contact = $request->contact;
+
+                // $bien->image = $request->imaage;
+                // $bien->admin_id=1;
+                $bien->update();
+
+                return response()->json([
+                    'status_code' => 200,
+                    'status_message' => 'Le bien a été modifié',
+                    'data' => $bien
+                ]);
+            } else {
+                return response()->json([
+                    'status_code' => 403,
+                    'status_message' => 'Vous n\'êtes pas autorisé à effectuer une modification sur ce bien'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status_code' => 422,
+                'status_message' => 'Vous n\'êtes pas autorisé à effectuer une modification'
+            ]);
+        }
+    } catch (Exception $e) {
+        return response()->json(['status_code' => 500, 'error' => $e->getMessage()]);
+    }
+}
+
+  
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBienRequest $request, $id)
-    {
-         try {           
-           //code qui permet de generer des erreurs
-          if( Auth::guard('user-api')->check())
-            {
-            $bien = Bien::findOrFail($id);
-            $bien->nom = $request->nom;
-            $bien->caracteristique = $request->caracteristique;
-            $bien->contact = $request->contact;
+    // public function update(UpdateBienRequest $request, $id)
+    // {
+    //      try {           
+    //        //code qui permet de generer des erreurs
+    //       if( Auth::guard('user-api')->check())
+    //         {
+    //         $bien = Bien::findOrFail($id);
+    //         $bien->nom = $request->nom;
+    //         $bien->caracteristique = $request->caracteristique;
+    //         $bien->contact = $request->contact;
 
-            // $bien->image = $request->imaage;
-            // $bien->admin_id=1;
-             $bien->update();
-             // dd($bien);
-         }else{
-             return response()->json([
-                'status_code'=>422,
-                'status_message'=>'Vous n\'etes pas autorisé a faire une modification'
-             ]);
-         } 
-             return response()->json([
-                'status_code' =>200,
-                'status_message' => 'le bien a été modifié',
-                'data'=>$bien
-            ]);
-      // code executé en cas d'erreur
-            } catch (Exception $e) {
+    //         // $bien->image = $request->imaage;
+    //         // $bien->admin_id=1;
+    //          $bien->update();
+    //          // dd($bien);
+    //      }else{
+    //          return response()->json([
+    //             'status_code'=>422,
+    //             'status_message'=>'Vous n\'etes pas autorisé a faire une modification'
+    //          ]);
+    //      } 
+    //          return response()->json([
+    //             'status_code' =>200,
+    //             'status_message' => 'le bien a été modifié',
+    //             'data'=>$bien
+    //         ]);
+    //   // code executé en cas d'erreur
+    //         } catch (Exception $e) {
              
-             return response()->json($e);
-           }
-         }
+    //          return response()->json($e);
+    //        }
+    //      }
 
     /**
      * Remove the specified resource from storage.

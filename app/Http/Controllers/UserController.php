@@ -61,11 +61,19 @@ class UserController extends Controller
          *
          * @return \Illuminate\Http\JsonResponse
          */
-        public function userlogout()
-        {
-            auth()->guard('user-api')->logout();
+         public function userlogout()
+         {
+             auth()->guard('user-api')->logout();
     
-            return response()->json(['message' => 'Successfully logged out']);
-        }
+             return response()->json(['message' => 'Successfully logged out']);
+         }
+
+//         public function userlogout()
+// {
+//     auth('user-api')->logout();
+
+//     return response()->json(['message' => 'Déconnexion réussie']);
+// }
+
 
 }

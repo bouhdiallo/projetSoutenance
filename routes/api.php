@@ -29,22 +29,26 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 // admin controller
-Route::post('adminregister', [AdminController::class, 'adminregister'])->name('adminregister');
-Route::post('adminlog', [AdminController::class, 'adminlog'])->name('adminlog');
+// Route::post('adminregister', [AdminController::class, 'adminregister'])->name('adminregister');
+// Route::post('adminlog', [AdminController::class, 'adminlog'])->name('adminlog');
 
-Route::view('adminlog', 'Admin/login')->name('adminlog');
-Route::group(['middleware' => 'admin:admin-api'], function () {
-    Route::post('adminlogout', [AdminController::class, 'adminlogout'])->name('adminlogout');
-    Route::post('me',[AdminController::class,  'me']);
-});
+// Route::view('adminlog', 'Admin/login')->name('adminlog');
+// Route::group(['middleware' => 'admin:admin-api'], function () {
+//     Route::post('adminlogout', [AdminController::class, 'adminlogout'])->name('adminlogout');
+//     Route::post('me',[AdminController::class,  'me']);
+// });
 
 //user controller
 Route::post('userregister', [UserController::class, 'userregister'])->name('userregister');
 Route::post('userlog', [UserController::class, 'userlog'])->name('userlog');
+Route::post('userlogout', [Usercontroller::class, 'userlogout'])->name('userlogout');
+
+Route::put('bien/update/{bien}', [BienController::class, 'update']);//modifier bien
 
 Route::group(['middleware' => 'auth:user-api'], function () {
-    Route::post('userlogout', [Usercontroller::class, 'userlogout'])->name('userlogout');
     Route::post('userme',[Usercontroller::class,  'me']);
+
+
 });
 
 
@@ -63,7 +67,6 @@ Route::get('listes_produit', [ProduitController::class,'index']); // listes des 
 
 //crud bien par un utilisateur
 Route::post('bien/create', [BienController::class, 'create']);//ajout bien
-Route::put('bien/update/{bien}', [BienController::class, 'update']);//modifier bien
 Route::delete('delete/{bien}', [BienController::class, 'delete']);//supprimmer bien
 Route::get('listes_bien', [BienController::class,'index']); // listes des bien
 
