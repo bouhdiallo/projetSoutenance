@@ -41,12 +41,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //user controller
 Route::post('userregister', [UserController::class, 'userregister'])->name('userregister');
 Route::post('userlog', [UserController::class, 'userlog'])->name('userlog');
-
-
 Route::group(['middleware' => 'auth:user-api'], function () {
     Route::post('userme',[Usercontroller::class,  'me']);
     Route::post('userlogout', [Usercontroller::class, 'userlogout'])->name('userlogout');
 });
+   //Verification email
+Route::post('verifMail',[UserController::class,'verifMail']);
+Route::post('resetPassword/{user}',[UserController::class,'resetPassword']);
+ 
+
+
 
 
 //crud annuaire par un administrateur
@@ -73,22 +77,22 @@ Route::put('bien/update/{bien}', [BienController::class, 'update']);//modifier b
 Route::post('annonce/create', [AnnonceController::class, 'create']);//ajout annonce
 Route::put('annonce/update/{annonce}', [AnnonceController::class, 'update']);//modifier annonce
 Route::delete('annonce/{annonce}', [AnnonceController::class, 'delete']);//supprimmer annonce
-Route::get('liste_annonce', [AnnonceController::class,'index']); // listes des bien
+Route::get('liste_annonce', [AnnonceController::class,'index']); // listes des annonces
 
 //crud Ressource par un administrateur
 Route::post('ressource/create', [RessourceController::class, 'create']);//ajout ressource
 Route::put('ressource/update/{ressource}', [RessourceController::class, 'update']);//modifier ressource
 Route::delete('deleteRessource/{ressource}', [RessourceController::class, 'delete']);//supprimmer ressource
-Route::get('liste_ressource', [RessourceController::class,'index']); // listes des bien
+Route::get('liste_ressource', [RessourceController::class,'index']); // listes des ressources
 
 //crud commentaire par un utilisateur
 Route::post('commentaire/create', [CommentaireController::class, 'create']);//ajout commentaire
 Route::put('commentaire/update/{commentaire}', [CommentaireController::class, 'update']);//modifier commentaire
-Route::delete('deletecommentaire/{commentaire}', [CommentaireController::class, 'delete']);//supprimmer commentaire
-Route::get('liste_commentaire', [CommentaireController::class,'index']); // listes des bien
+Route::delete('deleteCommentaire/{commentaire}', [CommentaireController::class, 'delete']);//supprimmer commentaire
+Route::get('liste_commentaire', [CommentaireController::class,'index']); // listes des commentaires
 
 //crud discussion dans espace dialogue par un utilisateur
 Route::post('discussion/create', [EspaceDialogueController::class, 'create']);//ajout discussion
 Route::put('discussion/update/{discussion}', [EspaceDialogueController::class, 'update']);//modifier discussion
 Route::delete('deleteDiscussion/{discussion}', [EspaceDialogueController::class, 'delete']);//supprimmer discussion
-Route::get('liste_discussion', [EspaceDialogueController::class,'index']); // listes des bien
+Route::get('liste_discussion', [EspaceDialogueController::class,'index']); // listes des discussions

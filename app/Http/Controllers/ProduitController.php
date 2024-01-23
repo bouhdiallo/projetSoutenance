@@ -109,7 +109,6 @@ class ProduitController extends Controller
         try {           
             if (Auth::guard('user-api')->check()) {
                 $user = Auth::guard('user-api')->user();
-                dd($user);
 
                 // Vérifier si l'utilisateur est l'auteur du bien
                 $produit = Produit::findOrFail($id);
@@ -117,7 +116,7 @@ class ProduitController extends Controller
                     $produit->nom_produit = $request->nom_produit;
                     $produit->prix = $request->prix;
                     $produit->contact = $request->contact;
-    
+
                     // $produit->image = $request->imaage;
                     // $produit->admin_id=1;
                     $produit->update();
@@ -151,7 +150,7 @@ class ProduitController extends Controller
         try {
             if (Auth::guard('user-api')->check()) {
                 $user = Auth::guard('user-api')->user();
-    
+
                 // Vérifier si l'utilisateur est l'auteur du bien et a le rôle 'user'
                 // if ($produit->user_id === $user->id && $user->role === 'user')
                 if ($produit->user_id === $user->id)
