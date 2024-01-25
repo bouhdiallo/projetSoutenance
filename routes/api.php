@@ -10,6 +10,7 @@ use App\Http\Controllers\ProduitController;
 use App\Http\Controllers\AnnuaireController;
 use App\Http\Controllers\RessourceController;
 use App\Http\Controllers\CommentaireController;
+use App\Http\Controllers\NewslestterController;
 use App\Http\Controllers\EspaceDialogueController;
 
 /*
@@ -38,6 +39,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     Route::post('me',[AdminController::class,  'me']);
 // });
 
+   Route::view('adminlog', 'Admin/login')->name('adminlog');
+
 //user controller
 Route::post('userregister', [UserController::class, 'userregister'])->name('userregister');
 Route::post('userlog', [UserController::class, 'userlog'])->name('userlog');
@@ -48,10 +51,12 @@ Route::group(['middleware' => 'auth:user-api'], function () {
    //Verification email
 Route::post('verifMail',[UserController::class,'verifMail']);
 Route::post('resetPassword/{user}',[UserController::class,'resetPassword']);
+
+Route::post('newsletter/mail', [NewslestterController::class, 'store']);
+Route::post('listage_mail', [NewslestterController::class, 'index']);
+
+
  
-
-
-
 
 //crud annuaire par un administrateur
 Route::post('annuaire/create', [AnnuaireController::class, 'create']);//ajout annuaire

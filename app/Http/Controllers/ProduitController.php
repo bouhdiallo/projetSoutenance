@@ -71,12 +71,6 @@ class ProduitController extends Controller
         }
     }
 
-
-
-
-
-
-
     /**
      * Store a newly created resource in storage.
      */
@@ -109,6 +103,7 @@ class ProduitController extends Controller
         try {           
             if (Auth::guard('user-api')->check()) {
                 $user = Auth::guard('user-api')->user();
+                // dd($user);
 
                 // Vérifier si l'utilisateur est l'auteur du bien
                 $produit = Produit::findOrFail($id);
@@ -120,6 +115,7 @@ class ProduitController extends Controller
                     // $produit->image = $request->imaage;
                     // $produit->admin_id=1;
                     $produit->update();
+                    // dd($produit);
     
                     return response()->json([
                         'status_code' => 200,

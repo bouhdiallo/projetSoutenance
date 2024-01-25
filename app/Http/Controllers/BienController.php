@@ -49,6 +49,7 @@ public function create(CreateBienRequest $request)
                 $file->move(public_path('images'), $filename);
                 $bien->images = $filename;  
             }
+            $bien->statut = $request->statut;
 
             // Assurez-vous d'associer le bien à l'utilisateur actuellement authentifié
             $bien->user_id = $user->id;

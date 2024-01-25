@@ -94,7 +94,7 @@ class AnnuaireController extends Controller
             }
 
             $annuaire->couriel = $request->couriel;
-            $annuaire->admin_id = $user->id;
+            $annuaire->user_id = $user->id;
             $annuaire->save();
 
             return response()->json([
@@ -153,7 +153,7 @@ class AnnuaireController extends Controller
                 // Vérifier si l'utilisateur est l'auteur du bien
                 $annuaire = Annuaire::findOrFail($id);
                 // dd($annuaire);
-                if ($annuaire->admin_id === $user->id && $user->role === 'admin') {
+                if ($annuaire->user_id === $user->id && $user->role === 'admin') {
                     $annuaire->nom = $request->nom;
                     $annuaire->adress = $request->adress;
                     $annuaire->couriel = $request->couriel;
@@ -194,7 +194,7 @@ class AnnuaireController extends Controller
             $user = Auth::guard('user-api')->user();
 
             // Vérifier si l'utilisateur est l'auteur du annuaire et a le rôle 'admin'
-             if ($annuaire->admin_id === $user->id && $user->role === 'admin') 
+             if ($annuaire->user_id === $user->id && $user->role === 'admin') 
             // if ($annuaire->admin_id === $user->id) 
             //    dd($annuaire);
             {

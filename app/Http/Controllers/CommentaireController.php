@@ -38,14 +38,16 @@ class CommentaireController extends Controller
             if( Auth::guard('user-api')->check()) {
                 $user = Auth::guard('user-api')->user();
 
-            $comment = new Commentaire();
+            $commentaire = new Commentaire();
             
-             $comment->description = $request->description;
-            // $comment->admin_id=1;
-            $comment->user_id = $user->id;
-            // $comment->user_id = $user->id;
+             $commentaire->description = $request->description;
+            // $commentaire->admin_id=1;
+            $commentaire->user_id = $user->id;
+            // $commentaire->user_id = $user->id;
+            $commentaire->annonce_id = $request->annonce_id;
 
-            $comment->save();
+
+            $commentaire->save();
         }else{
             return response()->json([
                 'status_code'=>422,
@@ -56,7 +58,7 @@ class CommentaireController extends Controller
             return response()->json([
                 'status_code' =>200,
                 'status_message' => 'le commentaire a été enregistré avec succes',
-                'data'=>$comment
+                'data'=>$commentaire
             ]);
     
            } catch (Exception $e) {
@@ -69,24 +71,24 @@ class CommentaireController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function delete(Commentaire $comment)
+    public function delete(Commentaire $commentaire)
    
     { 
         try {
             if (Auth::guard('user-api')->check()) {
                 $user = Auth::guard('user-api')->user();
-                // dd($comment->user_id, $user->id);
+                // dd($commentaire->user_id, $user->id);
 
                 // Vérifier si l'utilisateur est l'auteur du bien et a le rôle 'user'
                 // if ($bien->user_id === $user->id && $user->role === 'user')
-                if ($comment->user_id === $user->id) 
+                if ($commentaire->user_id === $user->id ) 
                 {
-                    $comment->delete();
+                    $commentaire->delete();
 
                     return response()->json([
                         'status_code' => 200,
                         'status_message' => 'Le commentaire a été supprimé',
-                        'data' => $comment
+                        'data' => $commentaire
                     ]);
                 } else {
                     return response()->json([
@@ -104,6 +106,7 @@ class CommentaireController extends Controller
             return response()->json(['status_code' => 500, 'error' => $e->getMessage()]);
         }
     }
+    
   
     /**
      * Display the specified resource.
@@ -130,19 +133,19 @@ class CommentaireController extends Controller
         if (Auth::guard('user-api')->check()) {
             $user = Auth::guard('user-api')->user();
 
-            $comment = Commentaire::findOrFail($id);
+            $commentaire = Commentaire::findOrFail($id);
 
             // Vérifier si l'utilisateur est l'auteur du commentaire
-            if ($comment->user_id === $user->id) {
-                $comment->description = $request->description;
+            if ($commentaire->user_id === $user->id) {
+                $commentaire->description = $request->description;
                 // dd($user);
 
-                $comment->update();
+                $commentaire->update();
 
                 return response()->json([
                     'status_code' => 200,
                     'status_message' => 'Le commentaire a été modifié',
-                    'data' => $comment
+                    'data' => $commentaire
                 ]);
             } else {
                 return response()->json([

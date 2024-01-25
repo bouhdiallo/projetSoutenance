@@ -21,7 +21,7 @@ class AnnonceController extends Controller
             return response()->json([
               'status_code' =>200,
               'status_message' => 'la liste des annoances a été recuperé',
-              'data'=>Annonce::all()
+               'data'=>Annonce::all()
           ]);
 
         } catch(Exception $e){
@@ -56,7 +56,7 @@ class AnnonceController extends Controller
                 // dd($annonce);
 
 
-                $annonce->admin_id = $user->id;
+                $annonce->user_id = $user->id;
                 // dd($annonce);
 
                 $annonce->save();
@@ -149,7 +149,7 @@ class AnnonceController extends Controller
                 $annonce = Annonce::findOrFail($id);
     
                 // Vérifier si l'utilisateur est l'auteur du annonceaire
-                if ($annonce->admin_id === $user->id && $user->role === 'admin')  {
+                if ($annonce->user_id === $user->id && $user->role === 'admin')  {
                     // dd($annonce);
 
                     $annonce->description = $request->description;
@@ -193,7 +193,7 @@ class AnnonceController extends Controller
                 $user = Auth::guard('user-api')->user();
     
                 // Vérifier si l'utilisateur est l'auteur du annuaire et a le rôle 'admin'
-                 if ($annonce->admin_id === $user->id && $user->role === 'admin') 
+                 if ($annonce->user_id === $user->id && $user->role === 'admin') 
                 // if ($annuaire->admin_id === $user->id) 
                 //    dd($annuaire);
                 {
@@ -201,13 +201,13 @@ class AnnonceController extends Controller
     
                     return response()->json([
                         'status_code' => 200,
-                        'status_message' => 'L\'annuaire a été supprimé',
+                        'status_message' => 'L\'annonce a été supprimé',
                         'data' => $annonce
                     ]);
                 } else {
                     return response()->json([
                         'status_code' => 403,
-                        'status_message' => 'Vous n\'êtes pas autorisé à effectuer la suppression de ce annuaire'
+                        'status_message' => 'Vous n\'êtes pas autorisé à effectuer la suppression de cette annonce'
                     ]);
                 }
             } else {

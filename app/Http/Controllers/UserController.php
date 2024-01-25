@@ -65,33 +65,4 @@ class UserController extends Controller
 
 //     return response()->json(['message' => 'Déconnexion réussie']);
 // }
-
-
-  // on verifie si le mail correspond, si c le cas on pass le user pour une modification de son mot de pass.
-  public function verifMail(Request $request){
-   $user=User::where('email',$request->email)->first();
- // dd($user);
-    if($user){
-      return response()->json([
-          'status_code' => 200,
-          'status_message' => 'Utilisateur trouvé',
-          'user' => $user,
-      ]);
-   }
-
-  }
-    public function resetPassword(Request $request,User $user){
-    $user->password=$request->password;
-   $user->save();
- //dd($user);
-    if($user){
-       return response()->json([
-          'status_code' => 200,
-          'status_message' => 'Votre mot de passe a été modifier',
-          'user' => $user,
-      ]);
-  }
-
-}
-
 }

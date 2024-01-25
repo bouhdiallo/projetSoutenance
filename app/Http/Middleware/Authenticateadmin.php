@@ -15,12 +15,12 @@ class Authenticateadmin extends Middleware
         }
 
         
-            if ($this->auth->guard('admin-api')->check()) {
-                return $this->auth->shouldUse('admin-api');
+            if ($this->auth->guard('user-api')->check()) {
+                return $this->auth->shouldUse('user-api');
             }
         
 
-        $this->unauthenticated($request, ['admin-api']);
+        $this->unauthenticated($request, ['user-api']);
     }
 
     /**
@@ -28,6 +28,6 @@ class Authenticateadmin extends Middleware
      */
     protected function redirectTo(Request $request): ?string
     {
-        return $request->expectsJson() ? null : route('adminlog');
+        return $request->expectsJson() ? null : route('userlog');
     }
 }

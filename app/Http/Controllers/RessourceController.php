@@ -44,7 +44,7 @@ class RessourceController extends Controller
                 $ressource->nom = $request->nom;
                 $ressource->nature = $request->nature;
 
-                $ressource->admin_id = $user->id;
+                $ressource->user_id = $user->id;
                 $ressource->save();
     
                 return response()->json([
@@ -55,7 +55,7 @@ class RessourceController extends Controller
             } else {
                 return response()->json([
                     'status_code' => 403,
-                    'status_message' => 'Vous n\'avez pas les autorisations nécessaires pour créer un annuaire en tant qu\'admin'
+                    'status_message' => 'Vous n\'avez pas les autorisations nécessaires pour créer une ressources en tant qu\'admin'
                 ]);
             }
         } catch (Exception $e) {
@@ -98,7 +98,7 @@ class RessourceController extends Controller
                     // Vérifier si l'utilisateur est l'auteur du bien
                     $ressource = Ressource::findOrFail($id);
                     // dd($ressource);
-                    if ($ressource->admin_id === $user->id && $user->role === 'admin') {
+                    if ($ressource->user_id === $user->id && $user->role === 'admin') {
                         $ressource->nom = $request->nom;
                         $ressource->nature = $request->nature;
         
@@ -140,7 +140,7 @@ class RessourceController extends Controller
             $user = Auth::guard('user-api')->user();
 
             // Vérifier si l'utilisateur est l'auteur du annuaire et a le rôle 'admin'
-             if ($ressource->admin_id === $user->id && $user->role === 'admin') 
+             if ($ressource->user_id === $user->id && $user->role === 'admin') 
             // if ($annuaire->admin_id === $user->id) 
             //    dd($annuaire);
             {
@@ -148,13 +148,13 @@ class RessourceController extends Controller
 
                 return response()->json([
                     'status_code' => 200,
-                    'status_message' => 'L\'annuaire a été supprimé',
+                    'status_message' => 'la ressource a été supprimé',
                     'data' => $ressource
                 ]);
             } else {
                 return response()->json([
                     'status_code' => 403,
-                    'status_message' => 'Vous n\'êtes pas autorisé à effectuer la suppression de ce annuaire'
+                    'status_message' => 'Vous n\'êtes pas autorisé à effectuer la suppression de ce ressource'
                 ]);
             }
         } else {

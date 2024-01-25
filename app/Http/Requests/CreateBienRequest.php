@@ -27,7 +27,8 @@ class CreateBienRequest extends FormRequest
              [
                      'nom' => 'required',
                      'caracteristique' => 'required',
-                     'contact' => 'required'
+                     'contact' => 'required',
+                      'statut' => 'required'
                 ];
 
             }
@@ -45,7 +46,9 @@ class CreateBienRequest extends FormRequest
                 return [
                     'nom.required' => 'un nom pour le bien doit etre fourni',
                     'caracteristique.required' => 'un caracteristique doit etre fourni',
-                    'contact.required' => 'un contact doit etre fourni'
+                    'contact.required' => 'un contact doit etre fourni',
+                    'statut.required' => 'un statut doit etre fourni'
+
 
                 ];
              }

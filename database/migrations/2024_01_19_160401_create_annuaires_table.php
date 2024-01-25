@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -18,7 +19,7 @@ return new class extends Migration
             $table->string('adress');
             $table->string('images');
             $table->string('couriel');
-            $table->foreignIdFor(Admin::class)->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignIdFor(User::class)->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
