@@ -12,7 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
-    use Notifiable;
+    // use Notifiable;
 
     public function getJWTIdentifier()
     {

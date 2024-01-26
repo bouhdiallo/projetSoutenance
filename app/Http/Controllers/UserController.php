@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Notifications\UserRegisterMail;
 
 class UserController extends Controller
 {
     //
-    public function userregister(Request $request){
+    public function userregister(Request $request)
+    {
+      try {
         $user = new User();
         
         $user->nom = $request->nom;
@@ -17,16 +21,19 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->role = $request->role;
+        if($user->save()){
 
-
-        $user->save();
-          if($user){
-            return response()->json([$user,'status' => true]);
-    
-          }else {
-            return response()->json(['status' => false]);
-    
-          }
+          $user->notify(new UserRegisterMail());
+          // dd($user);
+      }
+        return response()->json([
+          'status_code' => 200,
+          'status_message' => 'Insertion reussi',
+          'data' => $user
+      ]);
+  }catch(\Exception $e){
+    return response()->json(['error' => $e->getMessage()]);
+  }
      }
 
      public function userlog(Request $request){
@@ -65,4 +72,19 @@ class UserController extends Controller
 
 //     return response()->json(['message' => 'Déconnexion réussie']);
 // }
+
+public function index()
+{
+    try{
+
+        return response()->json([
+          'status_code' =>200,
+          'status_message' => 'la liste des utilisateurs a été recuperé',
+           'data'=>User::all()
+      ]);
+
+    } catch(Exception $e){
+        return response($e)->json($e);
+    }
+}
 }

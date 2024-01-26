@@ -44,9 +44,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //user controller
 Route::post('userregister', [UserController::class, 'userregister'])->name('userregister');
 Route::post('userlog', [UserController::class, 'userlog'])->name('userlog');
+Route::post('userlogout', [Usercontroller::class, 'userlogout'])->name('userlogout');
+Route::post('user_list', [Usercontroller::class, 'index'])->name('user_list');
+
+
 Route::group(['middleware' => 'auth:user-api'], function () {
     Route::post('userme',[Usercontroller::class,  'me']);
-    Route::post('userlogout', [Usercontroller::class, 'userlogout'])->name('userlogout');
 });
    //Verification email
 Route::post('verifMail',[UserController::class,'verifMail']);
@@ -55,8 +58,6 @@ Route::post('resetPassword/{user}',[UserController::class,'resetPassword']);
 Route::post('newsletter/mail', [NewslestterController::class, 'store']);
 Route::post('listage_mail', [NewslestterController::class, 'index']);
 
-
- 
 
 //crud annuaire par un administrateur
 Route::post('annuaire/create', [AnnuaireController::class, 'create']);//ajout annuaire
@@ -73,7 +74,7 @@ Route::get('listes_produit', [ProduitController::class,'index']); // listes des 
 
 //crud bien par un utilisateur
 Route::post('bien/create', [BienController::class, 'create']);//ajout bien
-Route::delete('delete/{bien}', [BienController::class, 'delete']);//supprimmer bien
+Route::delete('bien/delete/{bien}', [BienController::class, 'delete']);//supprimmer bien
 Route::get('listes_bien', [BienController::class,'index']); // listes des bien
 Route::put('bien/update/{bien}', [BienController::class, 'update']);//modifier bien
 

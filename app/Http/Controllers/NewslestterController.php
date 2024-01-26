@@ -59,7 +59,7 @@ class NewslestterController extends Controller
             }
         } catch (\Exception $e) {
 
-            return response()->json($e);
+            return response()->json(['error' => $e->getMessage()]);
         }
     }
 

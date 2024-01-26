@@ -112,6 +112,14 @@ class ProduitController extends Controller
                     $produit->prix = $request->prix;
                     $produit->contact = $request->contact;
 
+                     // Gestion de l'image
+                     if ($request->file('image')) {
+                        $file = $request->file('image');
+                        $filename = date('YmdHi') . $file->getClientOriginalName();
+                        $file->move(public_path('images'), $filename);
+                        $produit->images = $filename;  
+                    }
+
                     // $produit->image = $request->imaage;
                     // $produit->admin_id=1;
                     $produit->update();
@@ -138,6 +146,7 @@ class ProduitController extends Controller
             return response()->json(['status_code' => 500, 'error' => $e->getMessage()]);
         }
     }
+
     /**
      * Remove the specified resource from storage.
      */
