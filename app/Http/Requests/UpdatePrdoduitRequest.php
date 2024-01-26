@@ -24,9 +24,11 @@ class UpdatePrdoduitRequest extends FormRequest
     public function rules(): array
     {
         return   [
-            'nom_produit' => 'required',
+            'nom_produit' => 'required|regex:/^[a-zA-Z]+$/',
             'prix' => 'required',
-            'contact' => 'required'
+            'contact' => 'required|numeric',
+            'image' => 'required|image'
+
 
        ];
 
@@ -45,7 +47,9 @@ class UpdatePrdoduitRequest extends FormRequest
        return [
            'nom_produit.required' => 'un nom pour le produit doit etre fourni',
            'prix.required' => 'un prix doit etre fourni',
-           'contact.required' => 'un contact doit etre fourni'
+           'contact.required' => 'un contact doit etre fourni',
+           'image.required' => 'une image doit etre fourni'
+
 
        ];
     }

@@ -25,7 +25,7 @@ class CreateRessourceRequest extends FormRequest
     {
         return 
         [
-                'nom' => 'required',
+                'nom' => 'required|regex:/^[a-zA-Z]+$/',
                 'nature' => 'required',
            ];
 

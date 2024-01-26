@@ -77,13 +77,12 @@ class CommentaireController extends Controller
         try {
             if (Auth::guard('user-api')->check()) {
                 $user = Auth::guard('user-api')->user();
-                // dd($commentaire->user_id, $user->id);
+                  dd($commentaire->user_id, $user->id);
 
                 // Vérifier si l'utilisateur est l'auteur du bien et a le rôle 'user'
-                // if ($bien->user_id === $user->id && $user->role === 'user')
                 if ($commentaire->user_id === $user->id ) 
                 {
-                    $commentaire->delete();
+                     $commentaire->delete();
 
                     return response()->json([
                         'status_code' => 200,

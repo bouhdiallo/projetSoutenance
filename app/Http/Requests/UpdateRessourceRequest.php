@@ -24,7 +24,7 @@ class UpdateRessourceRequest extends FormRequest
     public function rules(): array
     {
         return   [
-            'nom' => 'required',
+            'nom' => 'required|regex:/^[a-zA-Z]+$/',
             'nature' => 'required',
 
        ];

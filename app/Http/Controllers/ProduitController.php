@@ -118,12 +118,10 @@ class ProduitController extends Controller
                         $filename = date('YmdHi') . $file->getClientOriginalName();
                         $file->move(public_path('images'), $filename);
                         $produit->images = $filename;  
+                        //dd('ok');
                     }
 
-                    // $produit->image = $request->imaage;
-                    // $produit->admin_id=1;
                     $produit->update();
-                    // dd($produit);
     
                     return response()->json([
                         'status_code' => 200,

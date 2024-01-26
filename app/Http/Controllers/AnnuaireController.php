@@ -32,48 +32,7 @@ class AnnuaireController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    // {
-    //     try {
-    //         if (Auth::guard('user-api')->check()) {
-    //             $user = Auth::guard('user-api')->user();
-    
-    //             $bien = new Bien();
-    //             $bien->nom = $request->nom;
-    //             $bien->caracteristique = $request->caracteristique;
-    //             $bien->contact = $request->contact;
-    
-    //             if ($request->file('image')) {
-    //                 $file = $request->file('image');
-    //                 $filename = date('YmdHi') . $file->getClientOriginalName();
-    //                 $file->move(public_path('images'), $filename);
-    //                 $bien->images = $filename;  
-    //             }
-    
-    //             // Assurez-vous d'associer le bien à l'utilisateur actuellement authentifié
-    //             $bien->user_id = $user->id;
-    
-    //             $bien->save();
-    
-    //             return response()->json([
-    //                 'status_code' => 200,
-    //                 'status_message' => 'Le bien a été ajouté avec succès',
-    //                 'data' => $bien
-    //             ]);
-    //         } else {
-    //             return response()->json([
-    //                 'status_code' => 401,
-    //                 'status_message' => 'Vous devez être authentifié pour créer un bien'
-    //             ]);
-    //         }
-    //     } catch (Exception $e) {
-    //         return response()->json(['status_code' => 500, 'error' => $e->getMessage()]);
-    //     }
-    // }
-
-
-
-
-
+   
     public function create(CreateAnnuaireRequest $request)
  {
     try {
@@ -156,6 +115,13 @@ class AnnuaireController extends Controller
                 if ($annuaire->user_id === $user->id && $user->role === 'admin') {
                     $annuaire->nom = $request->nom;
                     $annuaire->adress = $request->adress;
+                    if ($request->file('image')) {
+                        $file = $request->file('image');
+                        $filename = date('YmdHi') . $file->getClientOriginalName();
+                        $file->move(public_path('images'), $filename);
+                        $annuaire->images = $filename;  
+                    }
+        
                     $annuaire->couriel = $request->couriel;
     
                     // $annuaire->image = $request->imaage;

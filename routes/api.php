@@ -61,14 +61,14 @@ Route::post('listage_mail', [NewslestterController::class, 'index']);
 
 //crud annuaire par un administrateur
 Route::post('annuaire/create', [AnnuaireController::class, 'create']);//ajout annuaire
-Route::put('annuaire/update/{annuaire}', [AnnuaireController::class, 'update']);//modifier annuaire
+Route::post('annuaire/update/{annuaire}', [AnnuaireController::class, 'update']);//modifier annuaire
 Route::delete('annuaire/{annuaire}', [AnnuaireController::class, 'delete']);//supprimmer annuaire
 Route::get('listes_annuaires', [AnnuaireController::class,'index']); // listes des annuaires
 
 
 //crud produit par un utilisateur
 Route::post('produit/create', [ProduitController::class, 'create']);//ajout produit
-Route::put('produit/update/{produit}', [ProduitController::class, 'update']);//modifier produit
+Route::post('produit/update/{produit}', [ProduitController::class, 'update']);//modifier produit
 Route::delete('delete/{produit}', [ProduitController::class, 'delete']);//supprimmer produit
 Route::get('listes_produit', [ProduitController::class,'index']); // listes des produit
 
@@ -76,12 +76,12 @@ Route::get('listes_produit', [ProduitController::class,'index']); // listes des 
 Route::post('bien/create', [BienController::class, 'create']);//ajout bien
 Route::delete('bien/delete/{bien}', [BienController::class, 'delete']);//supprimmer bien
 Route::get('listes_bien', [BienController::class,'index']); // listes des bien
-Route::put('bien/update/{bien}', [BienController::class, 'update']);//modifier bien
+Route::post('bien/update/{bien}', [BienController::class, 'update']);//modifier bien
 
 
 //crud annonce par un administrateur
 Route::post('annonce/create', [AnnonceController::class, 'create']);//ajout annonce
-Route::put('annonce/update/{annonce}', [AnnonceController::class, 'update']);//modifier annonce
+Route::post('annonce/update/{annonce}', [AnnonceController::class, 'update']);//modifier annonce
 Route::delete('annonce/{annonce}', [AnnonceController::class, 'delete']);//supprimmer annonce
 Route::get('liste_annonce', [AnnonceController::class,'index']); // listes des annonces
 

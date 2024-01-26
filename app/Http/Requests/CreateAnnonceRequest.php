@@ -26,9 +26,9 @@ class CreateAnnonceRequest extends FormRequest
         return 
              [
                      'description' => 'required',
-                     'date_activite' => 'required',
+                     'date_activite' => 'required|date',
                      'lieu' => 'required',
-                     'images' => 'required'
+                     'images' => 'required|image'
 
 
 

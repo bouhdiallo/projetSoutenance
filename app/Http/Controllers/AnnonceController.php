@@ -79,38 +79,6 @@ class AnnonceController extends Controller
     
 
 
-
-
-
-
-    // {
-    //     try {
-    //         $annonce = new Annonce();
-            
-    //         $annonce->description = $request->description;
-    //         $annonce->date_activite = $request->date_activite;
-    //         $annonce->lieu = $request->lieu;
-    //         if ($request->file('image')) {
-    //             $file = $request->file('image');
-    //             $filename = date('YmdHi') . $file->getClientOriginalName();
-    //             $file->move(public_path('images'), $filename);
-    //             $annonce->images = $filename;  
-    //         }
-    //         //  dd($annonce);
-
-    //         // $annonce->admin_id=1;
-    //         $annonce->save();
-    
-    //         return response()->json([
-    //             'status_code' =>200,
-    //             'status_message' => 'l annonce a été ajouté avec succes',
-    //             'data'=>$annonce
-    //         ]);
-    
-    //        } catch (Exception $e) {
-             
-    //          return response()->json($e);
-    //        }
     
     // }
     /**
@@ -156,6 +124,14 @@ class AnnonceController extends Controller
                     $annonce->date_activite = $request->date_activite;
                     $annonce->lieu = $request->lieu;               
                         //   dd($user);
+
+                    if ($request->file('images')) {
+                            // dd('ok');
+                            $file = $request->file('images');
+                            $filename = date('YmdHi') . $file->getClientOriginalName();
+                            $file->move(public_path('images'), $filename);
+                            $annonce->images = $filename; 
+                         }
     
                     $annonce->update();
     

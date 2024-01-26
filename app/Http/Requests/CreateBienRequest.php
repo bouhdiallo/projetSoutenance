@@ -25,10 +25,11 @@ class CreateBienRequest extends FormRequest
     {
         return 
              [
-                     'nom' => 'required',
+                     'nom' => 'required|regex:/^[a-zA-Z]+$/',
                      'caracteristique' => 'required',
-                     'contact' => 'required',
-                      'statut' => 'required'
+                     'contact' => 'required|numeric',
+                     'images' =>'required|image',
+                    'statut' => 'required'
                 ];
 
             }
@@ -47,6 +48,7 @@ class CreateBienRequest extends FormRequest
                     'nom.required' => 'un nom pour le bien doit etre fourni',
                     'caracteristique.required' => 'un caracteristique doit etre fourni',
                     'contact.required' => 'un contact doit etre fourni',
+                    'images.required' => 'un contact doit etre fourni',
                     'statut.required' => 'un statut doit etre fourni'
 
 
