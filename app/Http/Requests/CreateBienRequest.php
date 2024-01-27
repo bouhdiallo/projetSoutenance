@@ -25,8 +25,8 @@ class CreateBienRequest extends FormRequest
     {
         return 
              [
-                     'nom' => 'required|regex:/^[a-zA-Z]+$/',
-                     'caracteristique' => 'required',
+                     'nom' => 'required|string',
+                     'caracteristique' => 'required|string',
                      'contact' => 'required|numeric',
                      'statut' => 'required'
                 ];

@@ -25,7 +25,7 @@ class UpdateBienRequest extends FormRequest
     {
         return 
         [
-                'nom' => 'required|regex:/^[a-zA-Z]+$/',
+                'nom' => 'required|string',
                 'caracteristique' => 'required',
                 'contact' => 'required|numeric'
 

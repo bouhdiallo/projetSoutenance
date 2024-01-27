@@ -24,7 +24,7 @@ class UpdateEspaceDialogueRequest extends FormRequest
     public function rules(): array
     {
         return   [
-            'contenu' => 'required',
+            'contenu' => 'required|string',
        ];
 
    }

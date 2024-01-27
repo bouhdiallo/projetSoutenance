@@ -25,7 +25,7 @@ class UpdateAnnonceRequest extends FormRequest
         {
             return 
                  [
-                         'description' => 'required',
+                         'description' => 'required|string',
                          'date_activite' => 'required|date',
                          'lieu' => 'required'
 

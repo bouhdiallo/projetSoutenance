@@ -25,7 +25,7 @@ class CreateCommentaireRequest extends FormRequest
     {
         return 
         [
-                'description' => 'required',
+                'description' => 'required|string',
            ];
 
        }

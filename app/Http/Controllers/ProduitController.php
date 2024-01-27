@@ -43,12 +43,13 @@ class ProduitController extends Controller
                 $produit->prix = $request->prix;
                 $produit->contact = $request->contact;
     
-                if ($request->file('image')) {
-                    $file = $request->file('image');
+                if ($request->file('images')) {
+                    $file = $request->file('images');
                     $filename = date('YmdHi') . $file->getClientOriginalName();
                     $file->move(public_path('images'), $filename);
                     $produit->images = $filename;  
                 }
+                // dd($produit);
     
                 // Assurez-vous d'associer le produit à l'utilisateur actuellement authentifié
                 $produit->user_id = $user->id;

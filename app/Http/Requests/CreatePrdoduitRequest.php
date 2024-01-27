@@ -25,7 +25,7 @@ class CreatePrdoduitRequest extends FormRequest
     {
         return 
              [
-                    'nom_produit' => 'required|regex:/^[a-zA-Z]+$/',
+                    'nom_produit' => 'required|string',
                      'prix' => 'required',
                      'contact' => 'required|numeric',
                      'images' =>'required'

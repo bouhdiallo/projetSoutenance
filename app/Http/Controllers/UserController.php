@@ -6,12 +6,14 @@ use Exception;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\LogUserRequest;
+use App\Http\Requests\registerRequest;
 use App\Notifications\UserRegisterMail;
 
 class UserController extends Controller
 {
     //
-    public function userregister(Request $request)
+    public function userregister(registerRequest $request)
     {
       try {
         $user = new User();
@@ -50,7 +52,7 @@ class UserController extends Controller
     //     }
 
 
-    public function userlog(Request $request)
+    public function userlog(LogUserRequest $request)
 {
     // credentiels contient les infos d'identification extraites de la requête 
     $credentials = request(['email', 'password']);

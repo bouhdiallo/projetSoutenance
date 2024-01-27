@@ -25,7 +25,7 @@ class CreateEspaceDialogueRequest extends FormRequest
     {
         return 
         [
-                'contenu' => 'required',
+                'contenu' => 'required|string',
            ];
 
        }

@@ -25,7 +25,7 @@ class UpdateAnnuaireRequest extends FormRequest
     {
         return 
         [
-                'nom' => 'required|regex:/^[a-zA-Z]+$/',
+                'nom' => 'required|string',
                 'adress' => 'required',
                 'couriel' => 'required'
 
