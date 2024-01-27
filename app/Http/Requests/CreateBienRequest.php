@@ -28,8 +28,7 @@ class CreateBienRequest extends FormRequest
                      'nom' => 'required|regex:/^[a-zA-Z]+$/',
                      'caracteristique' => 'required',
                      'contact' => 'required|numeric',
-                     'images' =>'required|image',
-                    'statut' => 'required'
+                     'statut' => 'required'
                 ];
 
             }

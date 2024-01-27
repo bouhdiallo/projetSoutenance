@@ -74,10 +74,10 @@ class CommentaireController extends Controller
     public function delete(Commentaire $commentaire)
    
     { 
-        try {
+        try {                
+
             if (Auth::guard('user-api')->check()) {
                 $user = Auth::guard('user-api')->user();
-                  dd($commentaire->user_id, $user->id);
 
                 // Vérifier si l'utilisateur est l'auteur du bien et a le rôle 'user'
                 if ($commentaire->user_id === $user->id ) 

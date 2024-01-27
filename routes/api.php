@@ -94,7 +94,7 @@ Route::get('liste_ressource', [RessourceController::class,'index']); // listes d
 //crud commentaire par un utilisateur
 Route::post('commentaire/create', [CommentaireController::class, 'create']);//ajout commentaire
 Route::put('commentaire/update/{commentaire}', [CommentaireController::class, 'update']);//modifier commentaire
-Route::delete('deleteCommentaire/{commentaire}', [CommentaireController::class, 'delete']);//supprimmer commentaire
+Route::delete('deletCommentaire/{commentaire}', [CommentaireController::class, 'delete']);//supprimmer commentaire
 Route::get('liste_commentaire', [CommentaireController::class,'index']); // listes des commentaires
 
 //crud discussion dans espace dialogue par un utilisateur

@@ -36,24 +36,43 @@ class UserController extends Controller
   }
      }
 
-     public function userlog(Request $request){
+    //  public function userlog(Request $request){
 
-        // credentiels contient les infos d'identification extraite de la requete 
-        $credentials = request(['email', 'password']);
+    //     // credentiels contient les infos d'identification extraite de la requete 
+    //     $credentials = request(['email', 'password']);
 
-        //cas ou l'authentification a echoué
-        if (! $token = auth()->guard('user-api')->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
+    //     //cas ou l'authentification a echoué
+    //     if (! $token = auth()->guard('user-api')->attempt($credentials)) {
+    //         return response()->json(['error' => 'Unauthorized'], 401);
+    //     }
 
-        return $token;
-        }
+    //     return $token;
+    //     }
 
-        public function me()
-        {
-            return response()->json(auth()->guard('user-api')->user());
-        }
-    
+
+    public function userlog(Request $request)
+{
+    // credentiels contient les infos d'identification extraites de la requête 
+    $credentials = request(['email', 'password']);
+
+    // cas où l'authentification a échoué
+    if (! $token = auth()->guard('user-api')->attempt($credentials)) {
+        return response()->json(['error' => 'Unauthorized'], 401);
+    }
+
+    // récupérer l'objet utilisateur
+    $user = auth()->guard('user-api')->user();
+
+    // retourner le token et l'objet utilisateur
+    return response()->json(['token' => $token, 'user' => $user]);
+}
+
+
+    public function me()
+    {
+       return response()->json(auth()->guard('user-api')->user());
+    }
+
         /**
          * Log the user out (Invalidate the token).
          *

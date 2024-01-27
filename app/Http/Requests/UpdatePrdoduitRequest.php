@@ -27,7 +27,7 @@ class UpdatePrdoduitRequest extends FormRequest
             'nom_produit' => 'required|regex:/^[a-zA-Z]+$/',
             'prix' => 'required',
             'contact' => 'required|numeric',
-            'image' => 'required|image'
+            'image' => 'required'
 
 
        ];
