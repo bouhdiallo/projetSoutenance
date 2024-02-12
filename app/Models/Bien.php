@@ -9,6 +9,15 @@ class Bien extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'nom',
+        'caracteristique',
+        'contact',
+        'images',
+        'statut',
+        'user_id'
+    ];
+
     public function user(){
         return ($this->belongsTo(User::class,'user_id'));
     }

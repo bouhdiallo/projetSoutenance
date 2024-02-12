@@ -49,7 +49,7 @@ class RessourceController extends Controller
     
                 return response()->json([
                     'status_code' => 200,
-                    'status_message' => 'L\'annuaire a été ajouté avec succès',
+                    'status_message' => 'La ressource a été ajouté avec succès',
                     'data' => $ressource
                 ]);
             } else {
@@ -69,6 +69,21 @@ class RessourceController extends Controller
     {
         //
     }
+    public function voirDetailsRessource($id)
+{
+    try {
+        // Recherche du bien par son ID
+        $ressource = Ressource::findOrFail($id);
+
+        return response()->json([
+            'status_code' => 200,
+            'status_message' => 'Détails ressource récupéré avec succès',
+            'data' => $ressource
+        ]);
+    } catch (Exception $e) {
+        return response()->json(['status_code' => 500, 'error' => $e->getMessage()]);
+    }
+}
 
     /**
      * Display the specified resource.

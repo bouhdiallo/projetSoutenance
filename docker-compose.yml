@@ -3,19 +3,21 @@ services:
     # Mysql database container
     db:
         image: mysql
-        container_name: projet_db_commune
+        container_name: certification_simplon
         restart: always
         volumes:
             - db-data:/var/lib/mysql
         environment:
             MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        ports:
+            - '3306'
         networks:
             - tutorial
 
     # phpmyadmin container
     phpmyadmin:
         image: phpmyadmin
-        container_name: projet_commune_phpmyadmin
+        container_name: certification_simplon1
         restart: always
         depends_on:
             - db
@@ -25,26 +27,16 @@ services:
             PMA_HOST: db
         networks:
             - tutorial
-    #  maildev container
-    maildev:
-        image: maildev/maildev
-        container_name: maildev_docker_soutenance
-        command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
-        ports:
-          - "8081:80"
-        restart: always
-        networks:
-            - tutorial
 
-    # Symfony apache project container
+    # laravel apache project container
     www:
         build: docker/php
-        container_name: projet_soutenance
+        container_name: certification_simplon2
         ports:
           - "8741:80"
         volumes:
             - ./docker/php/vhosts:/etc/apache2/sites-enabled
-            - ./:/var/www
+            - ./:/var/www/html
         restart: always
         networks:
             - tutorial

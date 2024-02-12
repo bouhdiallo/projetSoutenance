@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\User;
+// use Illuminate\Foundation\Auth\User;
 use App\Models\Annuaire;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -92,7 +93,7 @@ public function test_modification_annuaire()
     ];
 
     // Envoi de la requête pour mettre à jour l'annuaire
-    $response = $this->putJson('/api/annuaire/update/' . $annuaire->id, $updatedData);
+    $response = $this->postJson('/api/annuaire/update/' . $annuaire->id, $updatedData);
 
     // Vérifications
     $response->assertStatus(200);

@@ -45,7 +45,6 @@ class annonceTest extends TestCase
                      ]);
         }
 
-
         public function test_creation_annonce()
     {
         // Récupérer un utilisateur admin existant dans la base de données
@@ -60,7 +59,6 @@ class annonceTest extends TestCase
             'description' => 'sdfghj',
             'date_activite' => '2023-02-05',
             'lieu' => 'bhh',
-            // Ajoutez d'autres champs de données selon vos besoins
         ];
 
         // Envoi de la requête pour créer une annonce
@@ -69,20 +67,13 @@ class annonceTest extends TestCase
 
         // Vérifications
         $response->assertStatus(200);
-                //  ->assertJson([
-            
-
-          // Vérifier que l'annonce a été correctement enregistrée dans la base de données
-        //   $this->assertDatabaseHas('annonces', $annonceData + ['admin_id' => $admin->id]);
-    
-}
-
-
+    }
 
 public function test_modif_pour_annonce()
 {
     // Récupérer un utilisateur admin existant dans la base de données
     $admin = User::where('role', 'admin')->first();
+    //simulons l'authentification d'un utilisateur (methode actingAs)
     $this->actingAs($admin, 'user-api');
 
     // Assurez-vous qu'un utilisateur admin existe pour le test
@@ -102,7 +93,7 @@ public function test_modif_pour_annonce()
     ];
 
     // Envoi de la requête pour mettre à jour l'annonce
-    $response = $this->putJson('/api/annonce/update/' . $annonce->id, $updatedData);
+    $response = $this->postJson('/api/annonce/update/' . $annonce->id, $updatedData);
 
     // Vérifications
     $response->assertStatus(200);
@@ -139,8 +130,6 @@ public function test_suppression_annonce()
                 //     'data' => $response->json('data')
                 //  ]);
 
-        // Vérifier que l'annonce a été correctement supprimée de la base de données
-        // $this->assertDatabaseMissing('annonces', ['id' => $annonce->id]);
     }
 
 

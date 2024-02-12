@@ -38,20 +38,6 @@ class UserController extends Controller
   }
      }
 
-    //  public function userlog(Request $request){
-
-    //     // credentiels contient les infos d'identification extraite de la requete 
-    //     $credentials = request(['email', 'password']);
-
-    //     //cas ou l'authentification a echoué
-    //     if (! $token = auth()->guard('user-api')->attempt($credentials)) {
-    //         return response()->json(['error' => 'Unauthorized'], 401);
-    //     }
-
-    //     return $token;
-    //     }
-
-
     public function userlog(LogUserRequest $request)
 {
     // credentiels contient les infos d'identification extraites de la requête 
@@ -107,5 +93,35 @@ public function index()
     } catch(Exception $e){
         return response($e)->json($e);
     }
+} 
+
+
+public function verifMail(Request $request){
+  $user=User::where('email',$request->email)->first();
+ // dd($user);
+  if($user){
+      return response()->json([
+          'status_code' => 200,
+          'status_message' => 'Utilisateur trouvé',
+          'user' => $user,
+      ]);
+  }
+
 }
+public function resetPassword(Request $request,User $user){
+  $user->password=$request->password;
+  $user->save();
+ //dd($user);
+  if($user){
+      return response()->json([
+          'status_code' => 200,
+          'status_message' => 'Votre mot de passe a été modifier',
+          'user' => $user,
+      ]);
+  }
+
+}
+
+
+
 }

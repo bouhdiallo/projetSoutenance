@@ -89,6 +89,27 @@ class AnnonceController extends Controller
         //
     }
 
+/**
+ * Display the details of a specific resource.
+ */
+public function voirDetailsAnnonce($id)
+{
+    try {
+        // Recherche du bien par son ID
+        $annonce = Annonce::findOrFail($id);
+
+        return response()->json([
+            'status_code' => 200,
+            'status_message' => 'Détails de l\'annonce récupéré avec succès',
+            'data' => $annonce
+        ]);
+    } catch (Exception $e) {
+        return response()->json(['status_code' => 500, 'error' => $e->getMessage()]);
+    }
+}
+
+
+
     /**
      * Display the specified resource.
      */

@@ -21,22 +21,32 @@ class userTest extends TestCase
 
     /** @test */
 // public function test_user_can_login()
-// {
-//     // Utiliser un utilisateur existant dans la base de données
-//     $existingUser = User::where('email', 'astou@gmail.com')->first();
 
-//     // Appeler la fonction userlog avec les identifiants de l'utilisateur existant
-//     $response = $this->post(route('userlog'), [
-//         'email' => $existingUser->email,
-//         'password' => '12345678',
-//     ]);
-
-//     // dd($response->json());
-
-//     // Vérifier que la réponse contient un jeton
-//     $response->assertStatus(200);
-//     $this->assertAuthenticatedAs($existingUser, 'api');
 // }
+public function test_inscription_user()
+{
+
+    $user = User::create([
+        'nom' => 'ba',
+        'prenom' => 'samba',
+        'email' => 'mariaddialllog@gmail.com',
+        'password' => bcrypt('12345678'),
+        'role'=> 'user'
+    ]);
+ 
+    // $existingUser = User::where('email', 'astou@gmail.com')->first();
+
+
+    // Envoi de la requête de connexion
+     $response = $this->postJson('/api/userregister');
+    
+    // Vérifications
+    $response->assertStatus(200);
+    
+}
+
+
+
 
 public function test_connexion_reussie()
 {
@@ -58,7 +68,7 @@ public function test_connexion_reussie()
 public function test_deconnexion_reussie()
 {
     // Assurez-vous qu'un utilisateur est authentifié avant de tenter la déconnexion
-    $user = User::where('email', 'astou@gmail.com')->first();
+    $user = User::where('email', 'halima@gmail.com')->first();
 
     if (!$user) {
         $this->fail('Utilisateur non trouvé dans la base de données');
@@ -74,6 +84,4 @@ public function test_deconnexion_reussie()
     $this->assertArrayHasKey('message', $response->json());
     $this->assertEquals('Successfully logged out', $response->json()['message']);
 }
-
-
 }

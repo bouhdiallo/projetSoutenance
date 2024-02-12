@@ -135,7 +135,7 @@ public function update(UpdateBienRequest $request, $id)
 
             // Vérifier si l'utilisateur est l'auteur du bien
             $bien = Bien::findOrFail($id);
-            if ($bien->user_id === $user->id && $user->role === 'user') 
+            if ($bien->user_id === $user->id)//
             // if ($annuaire->admin_id === $user->id && $user->role === 'admin') 
             {
                 $bien->nom = $request->nom;
@@ -147,11 +147,8 @@ public function update(UpdateBienRequest $request, $id)
                         $filename = date('YmdHi') . $file->getClientOriginalName();
                         $file->move(public_path('images'), $filename);
                         $bien->images = $filename;
-
                 }
 
-                // $bien->image = $request->imaage;
-                // $bien->admin_id=1;
                 $bien->update();
 
                 return response()->json([
