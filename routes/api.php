@@ -54,7 +54,7 @@ Route::group(['middleware' => 'auth:user-api'], function () {
 Route::post('verifMail',[UserController::class,'verifMail']);
 Route::post('resetPassword/{user}',[UserController::class,'resetPassword']);
 
-Route::post('newsletters/mail', [NewslestterController::class, 'store']);
+Route::post('newsletter/mail', [NewslestterController::class, 'store']);
 Route::get('listage_mail', [NewslestterController::class, 'index']);
 
 

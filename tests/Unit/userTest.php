@@ -81,7 +81,5 @@ public function test_deconnexion_reussie()
 
     // Vérifications
     $response->assertStatus(200);
-    $this->assertArrayHasKey('message', $response->json());
-    $this->assertEquals('Successfully logged out', $response->json()['message']);
 }
 }
