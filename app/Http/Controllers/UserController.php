@@ -46,6 +46,7 @@ class UserController extends Controller
     $credentials = request(['email', 'password']);
 
     // cas où l'authentification a échoué
+    //attempt() est utilisée pour tenter d'authentifier un utilisateur
     if (! $token = auth()->guard('user-api')->attempt($credentials)) {
         return response()->json(['error' => 'Unauthorized'], 401);
     }
@@ -70,6 +71,7 @@ class UserController extends Controller
          */
          public function userlogout()
          {
+            //auth()fonction qui permet d'accéder à l'instance du gestionnaire d'authentification
              auth()->guard('user-api')->logout();
     
              return response()->json(['message' => 'Successfully logged out']);
