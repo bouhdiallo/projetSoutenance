@@ -28,17 +28,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-// admin controller
-// Route::post('adminregister', [AdminController::class, 'adminregister'])->name('adminregister');
-// Route::post('adminlog', [AdminController::class, 'adminlog'])->name('adminlog');
-
-// Route::view('adminlog', 'Admin/login')->name('adminlog');
-// Route::group(['middleware' => 'admin:admin-api'], function () {
-//     Route::post('adminlogout', [AdminController::class, 'adminlogout'])->name('adminlogout');
-//     Route::post('me',[AdminController::class,  'me']);
-// });
-
 //    Route::view('adminlog', 'Admin/login')->name('adminlog');
 
 //user controller
@@ -47,6 +36,9 @@ Route::post('userlog', [UserController::class, 'userlog'])->name('userlog');
 Route::post('userlogout', [Usercontroller::class, 'userlogout'])->name('userlogout');
 Route::post('user_list', [Usercontroller::class, 'index'])->name('user_list');
 Route::post('userme',[Usercontroller::class,  'me']);
+
+//refresh token
+Route::post('refresh',[Usercontroller::class,  'refresh']);
 
 Route::group(['middleware' => 'auth:user-api'], function () {
 });
@@ -57,13 +49,11 @@ Route::post('resetPassword/{user}',[UserController::class,'resetPassword']);
 Route::post('newsletter/mail', [NewslestterController::class, 'store']);
 Route::get('listage_mail', [NewslestterController::class, 'index']);
 
-
 //crud annuaire par un administrateur
 Route::post('annuaire/create', [AnnuaireController::class, 'create']);//ajout annuaire
 Route::post('annuaire/update/{annuaire}', [AnnuaireController::class, 'update']);//modifier annuaire
 Route::delete('annuaire/{annuaire}', [AnnuaireController::class, 'delete']);//supprimmer annuaire
 Route::get('listes_annuaires', [AnnuaireController::class,'index']); // listes des annuaires
-
 
 //crud produit par un utilisateur
 Route::post('produit/create', [ProduitController::class, 'create']);//ajout produit
@@ -90,7 +80,6 @@ Route::put('ressource/update/{ressource}', [RessourceController::class, 'update'
 Route::delete('deleteRessource/{ressource}', [RessourceController::class, 'delete']);//supprimmer ressource
 Route::get('liste_ressource', [RessourceController::class,'index']); // listes des ressources
 Route::get('ressource/details/{id}', [RessourceController::class,'voirDetailsRessource']);  //voir details pour ressource
-
 
 //crud commentaire par un utilisateur
 Route::post('commentaire/create', [CommentaireController::class, 'create']);//ajout commentaire

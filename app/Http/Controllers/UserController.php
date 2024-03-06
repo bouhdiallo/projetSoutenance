@@ -23,11 +23,13 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->role = $request->role;
-        if($user->save()){
 
-          $user->notify(new UserRegisterMail());
-          // dd($user);
-      }
+         $user->save();
+      //   if($user->save()){
+
+      //     $user->notify(new UserRegisterMail());
+      //     // dd($user);
+      // }
         return response()->json([
           'status_code' => 200,
           'status_message' => 'Insertion reussi',
@@ -121,6 +123,19 @@ public function resetPassword(Request $request,User $user){
   }
 
 }
+
+// public function refresh()    
+//      { 
+//        $user = auth()->user();        
+//       return $this->respondWithToken(auth()->refresh(), $user);     
+//      }
+
+
+    
+    // {
+    //     return $this->respondWithToken(auth()->refresh());
+    // }
+
 
 
 

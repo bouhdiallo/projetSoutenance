@@ -29,7 +29,7 @@ public function test_inscription_user()
     $user = User::create([
         'nom' => 'ba',
         'prenom' => 'samba',
-        'email' => 'mariaddialllog@gmail.com',
+        'email' => 'user552g@gmail.com',
         'password' => bcrypt('12345678'),
         'role'=> 'user'
     ]);
@@ -42,11 +42,7 @@ public function test_inscription_user()
     
     // Vérifications
     $response->assertStatus(200);
-    
 }
-
-
-
 
 public function test_connexion_reussie()
 {

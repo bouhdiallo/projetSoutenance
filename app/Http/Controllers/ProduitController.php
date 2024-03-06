@@ -42,7 +42,8 @@ class ProduitController extends Controller
                 $produit->nom_produit = $request->nom_produit;
                 $produit->prix = $request->prix;
                 $produit->contact = $request->contact;
-    
+ //on telecharge des fichiers dimages avec la requete,on leur attribue un nom unique
+//on les deplace vers le repertoire public avant de les enregistrer au nniveau de la base de donnees.
                 if ($request->file('images')) {
                     $file = $request->file('images');
                     $filename = date('YmdHi') . $file->getClientOriginalName();

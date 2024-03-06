@@ -49,7 +49,7 @@ class RessourceTest extends TestCase
     $admin = User::create([
         'nom' => 'faye',
         'prenom' => 'alou',
-        'email' => 'aocddlou@gmail.com',
+        'email' => 'aldokonte1@gmail.com',
         'password' => bcrypt('12345678'),
         'role' => 'admin',
     ]);
@@ -77,7 +77,7 @@ public function testUpdateRessourceEnTantQuAdmin()
         $admin = User::create([
             'nom' => 'Admin',
             'prenom' => 'Admin',
-            'email' => 'aradmisn5@gmail.com',
+            'email' => 'admin10@gmail.com',
             'password' => bcrypt('1234678'),
             'role' => 'admin',
         ]);

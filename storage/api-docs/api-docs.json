@@ -1,8 +1,8 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Documentation Projet Soutenance",
-        "description": "Api pour le projet commune konnect",
+        "title": "API DOCUMENTATION PROJET SOUTENANCE",
+        "description": "api pour la documentation de mon projet de soutenance",
         "version": "1.0.0"
     },
     "security": [
@@ -25,7 +25,7 @@
     "paths": {
         "/api/newsletter/mail": {
             "post": {
-                "summary": "New Request",
+                "summary": "Envoi mail pour inscription",
                 "description": "",
                 "responses": {
                     "201": {
@@ -87,16 +87,61 @@
                                 }
                             },
                             "example": {
-                                "email": "mountaga889@gmail.com"
+                                "email": "bouhdiallo2288@gmail.Com"
                             }
                         }
                     }
                 }
             }
         },
-        "/api/discussion/create": {
+        "/api/listage_mail": {
+            "get": {
+                "summary": "liste des emails pour newsletter",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "newsletter"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/api/verifMail": {
             "post": {
-                "summary": "ajouter discussion",
+                "summary": "verif mail pour reinitialiser mot de pass",
                 "description": "",
                 "responses": {
                     "201": {
@@ -137,7 +182,149 @@
                     }
                 },
                 "tags": [
-                    "Crud espacedDialogue"
+                    "modif password"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "email": "admin@gmail.com"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/resetPassword/2": {
+            "post": {
+                "summary": "reinitialiser mot de pass",
+                "description": "",
+                "responses": {
+                    "201": {
+                        "description": "Created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorize",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "modif password"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "password": {
+                                        "type": "integer"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "password": 12345678
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/discussion/create": {
+            "post": {
+                "summary": "ajout discussion",
+                "description": "",
+                "responses": {
+                    "201": {
+                        "description": "Created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorize",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Espace_dialogue"
                 ],
                 "parameters": [
                     {
@@ -158,7 +345,7 @@
                                 }
                             },
                             "example": {
-                                "contenu": "j'aime tous ce qui a raaport avec l'education"
+                                "contenu": "cette ressource est interessant"
                             }
                         }
                     }
@@ -199,7 +386,7 @@
                     }
                 },
                 "tags": [
-                    "Crud espacedDialogue"
+                    "Espace_dialogue"
                 ],
                 "parameters": [
                     {
@@ -225,7 +412,7 @@
                                 }
                             },
                             "example": {
-                                "contenu": "voila je tenais a vous remercier pour cette belle initiative"
+                                "contenu": " jamais au plus grand jamais!"
                             }
                         }
                     }
@@ -275,7 +462,7 @@
                     }
                 },
                 "tags": [
-                    "Crud espacedDialogue"
+                    "Espace_dialogue"
                 ],
                 "parameters": [
                     {
@@ -325,7 +512,7 @@
                     }
                 },
                 "tags": [
-                    "Crud espacedDialogue"
+                    "Espace_dialogue"
                 ],
                 "parameters": [
                     {
@@ -338,7 +525,7 @@
         },
         "/api/commentaire/create": {
             "post": {
-                "summary": "ajouter commentaire",
+                "summary": "ajout commentaire",
                 "description": "",
                 "responses": {
                     "201": {
@@ -379,7 +566,7 @@
                     }
                 },
                 "tags": [
-                    "Crud Commentaire"
+                    "commentaires"
                 ],
                 "parameters": [
                     {
@@ -403,8 +590,8 @@
                                 }
                             },
                             "example": {
-                                "description": "yup!",
-                                "annonce_id": 9
+                                "description": "c'est tres bien kmem!",
+                                "annonce_id": 6
                             }
                         }
                     }
@@ -413,7 +600,7 @@
         },
         "/api/commentaire/update/{commentaire}": {
             "put": {
-                "summary": "modifier commentaire",
+                "summary": "modification commentaire",
                 "description": "",
                 "responses": {
                     "200": {
@@ -445,7 +632,7 @@
                     }
                 },
                 "tags": [
-                    "Crud Commentaire"
+                    "commentaires"
                 ],
                 "parameters": [
                     {
@@ -471,7 +658,7 @@
                                 }
                             },
                             "example": {
-                                "description": "daccord!c'est une tres belle initiative en tous cas"
+                                "description": " merci pour tous"
                             }
                         }
                     }
@@ -480,7 +667,7 @@
         },
         "/api/deletCommentaire/{commentaire}": {
             "delete": {
-                "summary": "supprimer commentaire",
+                "summary": "suppression commentaire",
                 "description": "",
                 "responses": {
                     "204": {
@@ -521,7 +708,7 @@
                     }
                 },
                 "tags": [
-                    "Crud Commentaire"
+                    "commentaires"
                 ],
                 "parameters": [
                     {
@@ -531,27 +718,10 @@
                     },
                     {
                         "in": "header",
-                        "name": "Authorization",
+                        "name": "User-Agent",
                         "type": "string"
                     }
-                ],
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "annonce_id": {
-                                        "type": "integer"
-                                    }
-                                }
-                            },
-                            "example": {
-                                "annonce_id": 9
-                            }
-                        }
-                    }
-                }
+                ]
             }
         },
         "/api/liste_commentaire": {
@@ -588,7 +758,282 @@
                     }
                 },
                 "tags": [
-                    "Crud Commentaire"
+                    "commentaires"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/api/annonce/create": {
+            "post": {
+                "summary": "ajout annonce",
+                "description": "",
+                "responses": {
+                    "201": {
+                        "description": "Created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorize",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Crud Annonce"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "date_activite": {
+                                        "type": "string"
+                                    },
+                                    "lieu": {
+                                        "type": "string"
+                                    },
+                                    "images": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "description": "mon annonce",
+                                "date_activite": "2021/05/05",
+                                "lieu": "fghj",
+                                "images": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/annonce/update/{annonce}": {
+            "post": {
+                "summary": "modification annonce",
+                "description": "",
+                "responses": {
+                    "201": {
+                        "description": "Created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorize",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Crud Annonce"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "annonce",
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "date_activite": {
+                                        "type": "string"
+                                    },
+                                    "lieu": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "description": "mes annonces",
+                                "date_activite": "2023/02/08",
+                                "lieu": " fghjkl"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/annonce/{annonce}": {
+            "delete": {
+                "summary": "suppression annonce",
+                "description": "",
+                "responses": {
+                    "204": {
+                        "description": "Deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorize",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Crud Annonce"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "annonce",
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/api/liste_annonce": {
+            "get": {
+                "summary": "listages des annonces",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Crud Annonce"
                 ],
                 "parameters": [
                     {
@@ -642,7 +1087,7 @@
                     }
                 },
                 "tags": [
-                    "Crud ressource"
+                    "Ressources"
                 ],
                 "parameters": [
                     {
@@ -666,8 +1111,8 @@
                                 }
                             },
                             "example": {
-                                "nom": "espace social",
-                                "nature": "societé"
+                                "nom": "ma santé",
+                                "nature": "Lorem Ipsum est tout simplement un faux texte de l’industrie de l’imprimerie et de la composition. Lorem Ipsum est le texte factice standard de l'industrie depuis les années 1500, lorsqu'un imprimeur inconnu a pris une galerie de caractères et l'a brouillée pour en faire un livre de spécimens de caractères. Il a survécu non seulement"
                             }
                         }
                     }
@@ -708,9 +1153,14 @@
                     }
                 },
                 "tags": [
-                    "Crud ressource"
+                    "Ressources"
                 ],
                 "parameters": [
+                    {
+                        "in": "path",
+                        "name": "ressource",
+                        "type": "string"
+                    },
                     {
                         "in": "header",
                         "name": "User-Agent",
@@ -732,8 +1182,8 @@
                                 }
                             },
                             "example": {
-                                "nom": "magazin educatif",
-                                "nature": "education"
+                                "nom": "ressrce",
+                                "nature": "mes ressources"
                             }
                         }
                     }
@@ -783,9 +1233,14 @@
                     }
                 },
                 "tags": [
-                    "Crud ressource"
+                    "Ressources"
                 ],
                 "parameters": [
+                    {
+                        "in": "path",
+                        "name": "ressource",
+                        "type": "string"
+                    },
                     {
                         "in": "header",
                         "name": "User-Agent",
@@ -828,290 +1283,7 @@
                     }
                 },
                 "tags": [
-                    "Crud ressource"
-                ],
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "User-Agent",
-                        "type": "string"
-                    }
-                ]
-            }
-        },
-        "/api/annonce/create": {
-            "post": {
-                "summary": "ajouter annonce",
-                "description": "",
-                "responses": {
-                    "201": {
-                        "description": "Created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Unauthorize",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "crud annonce"
-                ],
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "User-Agent",
-                        "type": "string"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "description": {
-                                        "type": "string"
-                                    },
-                                    "date_activite": {
-                                        "type": "string"
-                                    },
-                                    "lieu": {
-                                        "type": "string"
-                                    },
-                                    "images": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                }
-                            },
-                            "example": {
-                                "description": "tournoi de foot ball",
-                                "date_activite": "2023/02/05",
-                                "lieu": "niary tally",
-                                "images": {
-                                    "type": "string",
-                                    "format": "binary"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/annonce/update/{annonce}": {
-            "post": {
-                "summary": "modifier annonce",
-                "description": "",
-                "responses": {
-                    "201": {
-                        "description": "Created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Unauthorize",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "crud annonce"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "annonce",
-                        "type": "string"
-                    },
-                    {
-                        "in": "header",
-                        "name": "User-Agent",
-                        "type": "string"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "description": {
-                                        "type": "string"
-                                    },
-                                    "date_activite": {
-                                        "type": "string"
-                                    },
-                                    "lieu": {
-                                        "type": "string"
-                                    },
-                                    "image": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                }
-                            },
-                            "example": {
-                                "description": "rentree politik",
-                                "date_activite": "2024/05/04",
-                                "lieu": "ndorong",
-                                "image": {
-                                    "type": "string",
-                                    "format": "binary"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/annonce/{annonce}": {
-            "delete": {
-                "summary": "supprimer annonce",
-                "description": "",
-                "responses": {
-                    "204": {
-                        "description": "Deleted successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Unauthorize",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "crud annonce"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "annonce",
-                        "type": "string"
-                    },
-                    {
-                        "in": "header",
-                        "name": "User-Agent",
-                        "type": "string"
-                    }
-                ]
-            }
-        },
-        "/api/liste_annonce": {
-            "get": {
-                "summary": "lister annonce",
-                "description": "",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "crud annonce"
+                    "Ressources"
                 ],
                 "parameters": [
                     {
@@ -1199,14 +1371,14 @@
                                 }
                             },
                             "example": {
-                                "nom": "sac",
-                                "caracteristique": "il est de couleur gris",
-                                "contact": "775584685",
+                                "nom": "telephone portable",
+                                "caracteristique": "abv",
+                                "contact": "774586525",
                                 "image": {
                                     "type": "string",
                                     "format": "binary"
                                 },
-                                "statut": "retrouver"
+                                "statut": "perdu"
                             }
                         }
                     }
@@ -1343,21 +1515,13 @@
                                     },
                                     "contact": {
                                         "type": "string"
-                                    },
-                                    "": {
-                                        "type": "string",
-                                        "format": "binary"
                                     }
                                 }
                             },
                             "example": {
-                                "nom": "mouton",
-                                "caracteristique": "il est noir-blanc",
-                                "contact": "770000000",
-                                "": {
-                                    "type": "string",
-                                    "format": "binary"
-                                }
+                                "nom": "kdn",
+                                "caracteristique": "vbebln",
+                                "contact": "772222222"
                             }
                         }
                     }
@@ -1399,289 +1563,6 @@
                 },
                 "tags": [
                     "Crud Bien"
-                ],
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "User-Agent",
-                        "type": "string"
-                    }
-                ]
-            }
-        },
-        "/api/produit/create": {
-            "post": {
-                "summary": "ajout produit",
-                "description": "",
-                "responses": {
-                    "201": {
-                        "description": "Created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Unauthorize",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "Crud produit"
-                ],
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "User-Agent",
-                        "type": "string"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "nom_produit": {
-                                        "type": "string"
-                                    },
-                                    "prix": {
-                                        "type": "string"
-                                    },
-                                    "contact": {
-                                        "type": "string"
-                                    },
-                                    "images": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                }
-                            },
-                            "example": {
-                                "nom_produit": "airpod",
-                                "prix": "180000",
-                                "contact": "775862135",
-                                "images": {
-                                    "type": "string",
-                                    "format": "binary"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/produit/update/{produit}": {
-            "post": {
-                "summary": "modifier produit",
-                "description": "",
-                "responses": {
-                    "201": {
-                        "description": "Created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Unauthorize",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "Crud produit"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "produit",
-                        "type": "string"
-                    },
-                    {
-                        "in": "header",
-                        "name": "User-Agent",
-                        "type": "string"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "nom_produit": {
-                                        "type": "string"
-                                    },
-                                    "prix": {
-                                        "type": "string"
-                                    },
-                                    "contact": {
-                                        "type": "string"
-                                    },
-                                    "": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                }
-                            },
-                            "example": {
-                                "nom_produit": "cable",
-                                "prix": "152000",
-                                "contact": "770000000",
-                                "": {
-                                    "type": "string",
-                                    "format": "binary"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/delete/{produit}": {
-            "delete": {
-                "summary": "supprimer produit",
-                "description": "",
-                "responses": {
-                    "204": {
-                        "description": "Deleted successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Unauthorize",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "Crud produit"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "produit",
-                        "type": "string"
-                    },
-                    {
-                        "in": "header",
-                        "name": "User-Agent",
-                        "type": "string"
-                    }
-                ]
-            }
-        },
-        "/api/listes_produit": {
-            "get": {
-                "summary": "liste produit",
-                "description": "",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "Crud produit"
                 ],
                 "parameters": [
                     {
@@ -1766,9 +1647,9 @@
                                 }
                             },
                             "example": {
-                                "nom": "grande mosqué medina baye",
-                                "adress": "medina",
-                                "couriel": "kb@gmail.com",
+                                "nom": "structure de sante de Sing Sing",
+                                "adress": "kl",
+                                "couriel": "ht@gmail.com",
                                 "image": {
                                     "type": "string",
                                     "format": "binary"
@@ -1907,23 +1788,15 @@
                                     "adress": {
                                         "type": "string"
                                     },
-                                    "images": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    },
                                     "couriel": {
                                         "type": "string"
                                     }
                                 }
                             },
                             "example": {
-                                "nom": "mosque medina baye",
-                                "adress": "kaoclack",
-                                "images": {
-                                    "type": "string",
-                                    "format": "binary"
-                                },
-                                "couriel": "770000000"
+                                "nom": "lycee",
+                                "adress": "kl",
+                                "couriel": "n@gmail.com"
                             }
                         }
                     }
@@ -1975,9 +1848,9 @@
                 ]
             }
         },
-        "/api/user_list": {
+        "/api/produit/create": {
             "post": {
-                "summary": "listages des utilisateurs",
+                "summary": "ajout produit",
                 "description": "",
                 "responses": {
                     "201": {
@@ -2018,115 +1891,7 @@
                     }
                 },
                 "tags": [
-                    "authentification admin et user"
-                ],
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "User-Agent",
-                        "type": "string"
-                    }
-                ]
-            }
-        },
-        "/api/userlogout": {
-            "post": {
-                "summary": "user logout",
-                "description": "",
-                "responses": {
-                    "201": {
-                        "description": "Created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Unauthorize",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "authentification admin et user"
-                ],
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "User-Agent",
-                        "type": "string"
-                    }
-                ]
-            }
-        },
-        "/api/resetPassword/11": {
-            "post": {
-                "summary": "reset password",
-                "description": "",
-                "responses": {
-                    "201": {
-                        "description": "Created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Unauthorize",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "authentification admin et user"
+                    "Crud produit"
                 ],
                 "parameters": [
                     {
@@ -2141,22 +1906,38 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "password": {
+                                    "nom_produit": {
                                         "type": "string"
+                                    },
+                                    "prix": {
+                                        "type": "string"
+                                    },
+                                    "contact": {
+                                        "type": "string"
+                                    },
+                                    "images": {
+                                        "type": "string",
+                                        "format": "binary"
                                     }
                                 }
                             },
                             "example": {
-                                "password": "1234"
+                                "nom_produit": "telephone",
+                                "prix": "50000",
+                                "contact": "775862154",
+                                "images": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
                             }
                         }
                     }
                 }
             }
         },
-        "/api/verifMail": {
+        "/api/produit/update/{produit}": {
             "post": {
-                "summary": "verif email",
+                "summary": "modifier produit",
                 "description": "",
                 "responses": {
                     "201": {
@@ -2197,9 +1978,14 @@
                     }
                 },
                 "tags": [
-                    "authentification admin et user"
+                    "Crud produit"
                 ],
                 "parameters": [
+                    {
+                        "in": "path",
+                        "name": "produit",
+                        "type": "string"
+                    },
                     {
                         "in": "header",
                         "name": "User-Agent",
@@ -2212,17 +1998,129 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "email": {
+                                    "nom_produit": {
+                                        "type": "string"
+                                    },
+                                    "prix": {
+                                        "type": "string"
+                                    },
+                                    "contact": {
                                         "type": "string"
                                     }
                                 }
                             },
                             "example": {
-                                "email": "idi@gmail.com"
+                                "nom_produit": "pc",
+                                "prix": "60000",
+                                "contact": "778515258"
                             }
                         }
                     }
                 }
+            }
+        },
+        "/api/delete/{produit}": {
+            "delete": {
+                "summary": "supprimer produit",
+                "description": "",
+                "responses": {
+                    "204": {
+                        "description": "Deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorize",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Crud produit"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "produit",
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/api/listes_produit": {
+            "get": {
+                "summary": "liste produit",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Crud produit"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ]
             }
         },
         "/api/userlog": {
@@ -2292,7 +2190,7 @@
                                 }
                             },
                             "example": {
-                                "email": "zahra@gmail.com",
+                                "email": "admin@gmail.com",
                                 "password": "12345678"
                             }
                         }
@@ -2376,15 +2274,69 @@
                                 }
                             },
                             "example": {
-                                "nom": "sow",
-                                "prenom": "ndeye fatou",
-                                "email": "ndaos98@gmail.com",
+                                "nom": "kane",
+                                "prenom": "kaneseydi",
+                                "email": "bouhdiallo22@gmail.com",
                                 "password": "12345678",
                                 "role": "user"
                             }
                         }
                     }
                 }
+            }
+        },
+        "/api/userlogout": {
+            "post": {
+                "summary": "user logout",
+                "description": "",
+                "responses": {
+                    "201": {
+                        "description": "Created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorize",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "authentification admin et user"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ]
             }
         },
         "/api/userme": {
@@ -2435,10 +2387,31 @@
                 "parameters": [
                     {
                         "in": "header",
-                        "name": "Authorization",
+                        "name": "User-Agent",
                         "type": "string"
                     }
-                ]
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "email": "admin@gmail.com",
+                                "password": "12345678"
+                            }
+                        }
+                    }
+                }
             }
         }
     }

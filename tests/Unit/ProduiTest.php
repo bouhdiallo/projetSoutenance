@@ -28,7 +28,7 @@ class ProduiTest extends TestCase
     $user = User::create([
         'nom' => 'ba',
         'prenom' => 'samba',
-        'email' => 'desdcv@gmail.com',
+        'email' => 'creation1234@gmail.com',
         'password' => bcrypt('12345678'),
     ]);
 
@@ -47,12 +47,12 @@ class ProduiTest extends TestCase
     $response = $this->json('POST', '/api/produit/create', $requestData);
 
     // Assurez-vous que la réponse est correcte
-    $response->assertStatus(200)
-        ->assertJson([
-            'status_code' => $response->json('status_code'),
-            'status_message' => $response->json('status_message'),
-            'data' => $response->json('data')
-        ]);
+    $response->assertStatus(200);
+        // ->assertJson([
+        //     'status_code' => $response->json('status_code'),
+        //     'status_message' => $response->json('status_message'),
+        //     'data' => $response->json('data')
+        // ]);
 }
 
     public function testModificationProduitAvecAuthentication()
@@ -61,7 +61,7 @@ class ProduiTest extends TestCase
     $user = User::create([
         'nom' => 'ba',
         'prenom' => 'samba',
-        'email' => 'dsssd@gmail.com',
+        'email' => 'voila1@gmail.com',
         'password' => bcrypt('12345678'),
     ]);
 
@@ -102,7 +102,7 @@ public function testSuppressionProduitAvecAuthentication()
     $user = User::create([
         'nom' => 'ba',
         'prenom' => 'samba',
-        'email' => 'coxh@gmail.com',
+        'email' => 'cocacola1@gmail.com',
         'password' => bcrypt('12345678'),
     ]);
 

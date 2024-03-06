@@ -110,7 +110,7 @@ class RessourceController extends Controller
                 if (Auth::guard('user-api')->check()) {
                     $user = Auth::guard('user-api')->user();
         
-                    // Vérifier si l'utilisateur est l'auteur du bien
+                    // Vérifier si l'utilisateur est l'auteur de la ressource
                     $ressource = Ressource::findOrFail($id);
                     // dd($ressource);
                     if ($ressource->user_id === $user->id && $user->role === 'admin') {

@@ -43,6 +43,8 @@ public function create(CreateBienRequest $request)
             $bien->caracteristique = $request->caracteristique;
             $bien->contact = $request->contact;
 
+//on telecharge des fichiers dimages avec la requete,on leur attribue un nom unique
+//on les deplace vers le repertoire public avant de les enregistrer au nniveau de la base de donnees.
             if ($request->file('image')) {
                 $file = $request->file('image');
                 $filename = date('YmdHi') . $file->getClientOriginalName();

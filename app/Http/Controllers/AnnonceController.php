@@ -46,6 +46,8 @@ class AnnonceController extends Controller
                  $annonce->date_activite = $request->date_activite;
                  $annonce->lieu = $request->lieu;
 
+//on telecharge des fichiers dimages avec la requete,on leur attribue un nom unique
+//on les deplace vers le repertoire public avant de les enregistrer au nniveau de la base de donnees.
                  if ($request->file('images')) {
                     // dd('ok');
                     $file = $request->file('images');
@@ -55,7 +57,7 @@ class AnnonceController extends Controller
                 }
                 // dd($annonce);
 
-
+// on assigne le use authentifier a la proriete use_id de l'annonce.
                 $annonce->user_id = $user->id;
                 // dd($annonce);
 
