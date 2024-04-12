@@ -18,6 +18,7 @@ return new class extends Migration
             $table->id();
             $table->string('nom');
             $table->string('nature');
+            $table->string('images');
             $table->foreignIdFor(User::class)->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });

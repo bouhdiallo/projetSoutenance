@@ -60,12 +60,18 @@ Route::post('produit/create', [ProduitController::class, 'create']);//ajout prod
 Route::post('produit/update/{produit}', [ProduitController::class, 'update']);//modifier produit
 Route::delete('delete/{produit}', [ProduitController::class, 'delete']);//supprimmer produit
 Route::get('listes_produit', [ProduitController::class,'index']); // listes des produit
+//nvelle route ajouter
+Route::get('produit/details/{id}', [ProduitController::class,'voirDetailsProduit']);  //voir details pour bien
+
 
 //crud bien par un utilisateur
 Route::post('bien/create', [BienController::class, 'create']);//ajout bien
 Route::delete('bien/delete/{bien}', [BienController::class, 'delete']);//supprimmer bien
 Route::get('listes_bien', [BienController::class,'index']); // listes des bien
 Route::post('bien/update/{bien}', [BienController::class, 'update']);//modifier bien
+//nvelle route ajouter
+Route::get('bien/details/{id}', [BienController::class,'voirDetailsBien']);  //voir details pour bien
+
 
 //crud annonce par un administrateur
 Route::post('annonce/create', [AnnonceController::class, 'create']);//ajout annonce

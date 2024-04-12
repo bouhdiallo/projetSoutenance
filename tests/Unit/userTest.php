@@ -29,7 +29,7 @@ public function test_inscription_user()
     $user = User::create([
         'nom' => 'ba',
         'prenom' => 'samba',
-        'email' => 'user552g@gmail.com',
+        'email' => 'user552mara@gmail.com',
         'password' => bcrypt('12345678'),
         'role'=> 'user'
     ]);

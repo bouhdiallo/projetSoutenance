@@ -28,7 +28,7 @@ class ProduiTest extends TestCase
     $user = User::create([
         'nom' => 'ba',
         'prenom' => 'samba',
-        'email' => 'creation1234@gmail.com',
+        'email' => 'creation123544@gmail.com',
         'password' => bcrypt('12345678'),
     ]);
 
@@ -61,7 +61,7 @@ class ProduiTest extends TestCase
     $user = User::create([
         'nom' => 'ba',
         'prenom' => 'samba',
-        'email' => 'voila1@gmail.com',
+        'email' => 'voila1231@gmail.com',
         'password' => bcrypt('12345678'),
     ]);
 
@@ -102,7 +102,7 @@ public function testSuppressionProduitAvecAuthentication()
     $user = User::create([
         'nom' => 'ba',
         'prenom' => 'samba',
-        'email' => 'cocacola1@gmail.com',
+        'email' => 'cocacola1231@gmail.com',
         'password' => bcrypt('12345678'),
     ]);
 

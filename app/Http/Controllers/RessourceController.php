@@ -43,6 +43,12 @@ class RessourceController extends Controller
     
                 $ressource->nom = $request->nom;
                 $ressource->nature = $request->nature;
+                if ($request->file('image')) {
+                    $file = $request->file('image');
+                    $filename = date('YmdHi') . $file->getClientOriginalName();
+                    $file->move(public_path('images'), $filename);
+                    $ressource->images = $filename;  
+                }
 
                 $ressource->user_id = $user->id;
                 $ressource->save();

@@ -27,10 +27,39 @@ class registerRequest extends FormRequest
             'nom' => 'required|string',
             'prenom'=>'required|string',
             'email'=>'required|unique:users,email',
-            'password'=>'required'
+            'password'=>'required|min:6'
         ];
     }
 
+
+          /**
+     * Handle a failed validation attempt.
+     *
+     * @param  \Illuminate\Contracts\Validation\Validator  $validator
+     * @return void
+     */
+    protected function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $this->validatePassword($validator);
+        });
+    }
+
+    /**
+     * Validate password custom rules.
+     *
+     * @param  \Illuminate\Contracts\Validation\Validator  $validator
+     * @return void
+     */
+    protected function validatePassword($validator)
+    {
+        $password = $this->input('password');
+
+        // Votre logique de validation personnalisée du mot de passe ici
+        if (!preg_match('/(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+{};:,<.>]).{6,}/', $password)) {
+            $validator->errors()->add('password', 'Le mot de passe doit contenir au moins une lettre, un chiffre et un caractère spécial.');
+        }
+    }
     public function failedValidation(Validator $validator){
         throw new HttpResponseException(response()->json([
             'success'=>false,
@@ -41,13 +70,15 @@ class registerRequest extends FormRequest
         ]));
     }
 
-    public function messages(){
-        return[
-            'nom.required'=>'Un nom doit etre fourni',
-            'prenom.required'=>'Un prenom doit etre fourni',
-            'email.required'=>'Un email doit etre fourni',
-            'email.unique'=>'L\'adresse mail existe deja',
-            'password.required'=>'Un mot de passe doit etre fourni',
+
+    public function messages()
+    {
+        return [
+            'nom.required' => 'Un nom doit être fourni.',
+            'prenom.required' => 'Un prénom doit être fourni.',
+            'email.required' => 'Une adresse email doit être fournie.',
+            'email.unique' => 'Cette adresse email est déjà utilisée.',
+            'password.required' => 'Un mot de passe doit être fourni.',
         ];
     }
 }

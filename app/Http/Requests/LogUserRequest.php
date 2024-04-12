@@ -25,7 +25,7 @@ class LogUserRequest extends FormRequest
     {
         return [
             'email'=>'required|email|exists:users,email',
-            'password'=>'required'
+            'password'=>'required|min:6'
         ];
     }
 

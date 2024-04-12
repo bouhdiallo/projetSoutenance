@@ -14,6 +14,23 @@ class BienController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+     public function voirDetailsBien($id)
+     {
+         try {
+             // Recherche du bien par son ID
+             $bien = Bien::findOrFail($id);
+     
+             return response()->json([
+                 'status_code' => 200,
+                 'status_message' => 'Détails de bien récupéré avec succès',
+                 'data' => $bien
+             ]);
+         } catch (Exception $e) {
+             return response()->json(['status_code' => 500, 'error' => $e->getMessage()]);
+         }
+     }
+
     public function index()
     {
          try{

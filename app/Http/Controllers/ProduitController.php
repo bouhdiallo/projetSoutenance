@@ -29,49 +29,66 @@ class ProduitController extends Controller
       }
     }
 
+
+    public function voirDetailsProduit($id)
+{
+    try {
+        // Recherche du bien par son ID
+        $product = Produit::findOrFail($id);
+
+        return response()->json([
+            'status_code' => 200,
+            'status_message' => 'Détails de produit récupéré avec succès',
+            'data' => $product
+        ]);
+    } catch (Exception $e) {
+        return response()->json(['status_code' => 500, 'error' => $e->getMessage()]);
+    }
+}
+
     /**
      * Show the form for creating a new resource.
      */
-    public function create(CreatePrdoduitRequest $request)
-    {
-        try {
-            if (Auth::guard('user-api')->check()) {
-                $user = Auth::guard('user-api')->user();
+//     public function create(CreatePrdoduitRequest $request)
+//     {
+//         try {
+//             if (Auth::guard('user-api')->check()) {
+//                 $user = Auth::guard('user-api')->user();
     
-                $produit = new Produit();
-                $produit->nom_produit = $request->nom_produit;
-                $produit->prix = $request->prix;
-                $produit->contact = $request->contact;
- //on telecharge des fichiers dimages avec la requete,on leur attribue un nom unique
-//on les deplace vers le repertoire public avant de les enregistrer au nniveau de la base de donnees.
-                if ($request->file('images')) {
-                    $file = $request->file('images');
-                    $filename = date('YmdHi') . $file->getClientOriginalName();
-                    $file->move(public_path('images'), $filename);
-                    $produit->images = $filename;  
-                }
-                // dd($produit);
+//                 $produit = new Produit();
+//                 $produit->nom_produit = $request->nom_produit;
+//                 $produit->prix = $request->prix;
+//                 $produit->contact = $request->contact;
+//  //on telecharge des fichiers dimages avec la requete,on leur attribue un nom unique
+// //on les deplace vers le repertoire public avant de les enregistrer au nniveau de la base de donnees.
+//                 if ($request->file('images')) {
+//                     $file = $request->file('images');
+//                     $filename = date('YmdHi') . $file->getClientOriginalName();
+//                     $file->move(public_path('images'), $filename);
+//                     $produit->images = $filename;  
+//                 }
+//                 // dd($produit);
     
-                // Assurez-vous d'associer le produit à l'utilisateur actuellement authentifié
-                $produit->user_id = $user->id;
+//                 // Assurez-vous d'associer le produit à l'utilisateur actuellement authentifié
+//                 $produit->user_id = $user->id;
     
-                $produit->save();
+//                 $produit->save();
     
-                return response()->json([
-                    'status_code' => 200,
-                    'status_message' => 'Le produit a été ajouté avec succès',
-                    'data' => $produit
-                ]);
-            } else {
-                return response()->json([
-                    'status_code' => 401,
-                    'status_message' => 'Vous devez être authentifié pour créer un bien'
-                ]);
-            }
-        } catch (Exception $e) {
-            return response()->json(['status_code' => 500, 'error' => $e->getMessage()]);
-        }
-    }
+//                 return response()->json([
+//                     'status_code' => 200,
+//                     'status_message' => 'Le produit a été ajouté avec succès',
+//                     'data' => $produit
+//                 ]);
+//             } else {
+//                 return response()->json([
+//                     'status_code' => 401,
+//                     'status_message' => 'Vous devez être authentifié pour créer un bien'
+//                 ]);
+//             }
+//         } catch (Exception $e) {
+//             return response()->json(['status_code' => 500, 'error' => $e->getMessage()]);
+//         }
+//     }
 
     /**
      * Store a newly created resource in storage.
@@ -184,5 +201,52 @@ class ProduitController extends Controller
             return response()->json(['status_code' => 500, 'error' => $e->getMessage()]);
         }
     }
+
+
+
+
+    public function create(CreatePrdoduitRequest $request)
+    {
+        try {
+            if (Auth::guard('user-api')->check()) {
+                $user = Auth::guard('user-api')->user();
     
+                if ($user->produitsMoisEnCours() >= 5) {
+                    return response()->json([
+                        'status_code' => 400,
+                        'status_message' => 'Vous avez atteint la limite mensuelle de création de produits'
+                    ]);
+                }
+    
+                $produit = new Produit();
+                $produit->nom_produit = $request->nom_produit;
+                $produit->prix = $request->prix;
+                $produit->contact = $request->contact;
+    
+                if ($request->file('images')) {
+                    $file = $request->file('images');
+                    $filename = date('YmdHi') . $file->getClientOriginalName();
+                    $file->move(public_path('images'), $filename);
+                    $produit->images = $filename;  
+                }
+    
+                $produit->user_id = $user->id;
+    
+                $produit->save();
+    
+                return response()->json([
+                    'status_code' => 200,
+                    'status_message' => 'Le produit a été ajouté avec succès',
+                    'data' => $produit
+                ]);
+            } else {
+                return response()->json([
+                    'status_code' => 401,
+                    'status_message' => 'Vous devez être authentifié pour créer un bien'
+                ]);
+            }
+        } catch (Exception $e) {
+            return response()->json(['status_code' => 500, 'error' => $e->getMessage()]);
+        }
+    }
      }

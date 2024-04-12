@@ -27,7 +27,7 @@ class BienTest extends TestCase
         $user = User::create([
             'nom' => 'ba',
             'prenom' => 'samba',
-            'email' => 'momarf@gmail.com',
+            'email' => 'momarmara@gmail.com',
             'password' => bcrypt('12345678'),
         ]);
 
