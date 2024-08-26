@@ -43,7 +43,7 @@ class UpdateBienRequest extends FormRequest
         {
            return [
                'nom.required' => 'un nom doit etre fourni',
-               'caaracteristique.required' => 'un caracteristique doit etre fourni',
+               'caracteristique.required' => 'un caracteristique doit etre fourni',
                'contact.required' => 'un contact doit etre fourni'
            ];
         }  

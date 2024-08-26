@@ -217,7 +217,7 @@ class ProduitController extends Controller
                         'status_message' => 'Vous avez atteint la limite mensuelle de création de produits'
                     ]);
                 }
-    
+                
                 $produit = new Produit();
                 $produit->nom_produit = $request->nom_produit;
                 $produit->prix = $request->prix;
